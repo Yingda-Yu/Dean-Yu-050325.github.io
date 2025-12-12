@@ -1,0 +1,11 @@
+# GitHub Pages 配置文件
+theme: jekyll-theme-minimal
+title: 俞颖达 (Yu Yingda) - Personal Website
+description: Personal academic website and CV
+author: Yu Yingda
+email: yuying@kean.edu
+
+# 如果使用Jekyll主题，取消下面的注释
+# plugins:
+#   - jekyll-feed
+

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>俞颖达 (Yu Yingda) - Personal Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header .contact {
+            margin-top: 20px;
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .section li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .experience-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .experience-item h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        
+        .experience-item .date {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .award-item {
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #f56565;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .skill-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .skill-category h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>俞颖达</h1>
+            <h2 style="font-weight: 300; margin-top: 5px;">Yu Yingda</h2>
+            <div class="contact">
+                <p>📧 yuying@kean.edu | 📱 +86 137 0849 5892</p>
+                <p>🏫 Wenzhou Kean University</p>
+                <p>📍 No. 88, Daxue Road, Ouhai District, Wenzhou</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>📚 Education</h2>
+                <h3>Bachelor of Science in Mathematics (Data Science Track)</h3>
+                <p><strong>Minors:</strong> Computer Science & Economics</p>
+                <p><strong>Institution:</strong> Wenzhou Kean University</p>
+                <p><strong>Period:</strong> 2023/9 – Present</p>
+                <ul>
+                    <li>WKU AI Lab member</li>
+                    <li>Teaching Assistant: Math 3700 Big Data Computing</li>
+                    <li>Teaching Assistant: Math 3790 Machine Learning (Incoming)</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>🔬 Research Interests</h2>
+                <div class="experience-item">
+                    <h3>Machine Learning & Deep Learning</h3>
+                    <ul>
+                        <li>Imbalance learning (JCR Q1)</li>
+                        <li>Transfer learning (CCF C)</li>
+                        <li>Multimodel learning (CCF C)</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>Computer Vision & Remote Sensing</h3>
+                    <ul>
+                        <li>Image Classification and Segmentation (JCR Q2)</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>AI for Science</h3>
+                    <ul>
+                        <li>Epidemic Disease Prediction (JCR Q2)</li>
+                        <li>Full waveform inversion (CCF C)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💻 Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Languages</h4>
+                        <p>English (Class language), Chinese (Native), Japanese (N3)</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Programming Languages</h4>
+                        <p>Python, Java, C++, R, Matlab, HTML, Mathematica, Shell, LaTeX</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Frameworks & Platforms</h4>
+                        <p>PyTorch, TensorFlow, Keras, Ubuntu, Git, CUDA</p>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Libraries</h4>
+                        <p>Scikit-Learn, SciPy, NumPy, OpenCV, Matplotlib, Pandas</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Research Experience</h2>
+                <div class="experience-item">
+                    <h3>Principal Investigator, Dengue Fever Early Warning System</h3>
+                    <div class="date">2024/6 - Present</div>
+                    <ul>
+                        <li>Led the development of a cross-disciplinary Dengue Fever early warning system, focusing on the integration of heterogeneous data, including various climate data, Google Trends, and satellite imagery, while leveraging multimodal learning techniques to enhance prediction accuracy.</li>
+                        <li>Directed a multidisciplinary team of over 10 members from computer science, biology, and mathematics, and regularly engaged with domain experts to address challenges encountered during model construction.</li>
+                        <li>The project outcomes include papers set to be submitted to the IJCNN conference and the journal Epidemics, with plans to provide predictive data to governments through an online platform to support policy-making decisions.</li>
+                    </ul>
+                </div>
+                
+                <div class="experience-item">
+                    <h3>Major Player, Mapping the invasive Spartina alterniflora with improved phenological spectral features and deep learning method</h3>
+                    <div class="date">2024/9 - Present</div>
+                    <ul>
+                        <li>The project was initiated by Assistant Professor Xu Shuyang from our university's Environmental Science Department in response to Zhejiang Province's invasive species control plan introduced in 2023. I am responsible for the "Methods" section of the entire project.</li>
+                        <li>Developed numerical models based on deep learning and phenological feature analysis to predict and monitor the distribution and dynamic changes of the invasive species Spartina alterniflora in Hangzhou Bay from 1998 to the present.</li>
+                        <li>The project outcomes will be published in authoritative remote sensing journals such as Remote Sensing of Environment, providing scientific support for governmental environmental protection policies.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🏆 Awards & Honors</h2>
+                <div class="award-item">
+                    <h3>The First Prize [2024/5]</h3>
+                    <p>Awarded for won first place in the ESG business competition held by Nestle in the southern Zhejiang region</p>
+                </div>
+                <div class="award-item">
+                    <h3>Best Organization Award [2024/6]</h3>
+                    <p>Awarded for excellent behavior during the internship period and building a data system to screen customers for Bank of China Wenzhou Li'ao Branch</p>
+                </div>
+                <div class="award-item">
+                    <h3>Cougar Pioneers Prize [2024/9]</h3>
+                    <p>Awarded for actively expanding extracurricular academic fields for Wenzhou Kean University</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📝 Academic Activities</h2>
+                <ul>
+                    <li><strong>Participant</strong>, 2024/12 "International Conference on Data Science and Brain-Inspired Intelligence", Fudan University</li>
+                    <li>More to come soon</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
