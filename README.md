@@ -92,4 +92,3 @@ Scikit-Learn, SciPy, NumPy, OpenCV, Matplotlib, Pandas
 ## 📧 Contact
 
 Feel free to reach out via email at **yuying@kean.edu** or phone at **+86 137 0849 5892**.
-
