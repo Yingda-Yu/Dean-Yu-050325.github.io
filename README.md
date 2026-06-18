@@ -1,94 +1,75 @@
-# 俞颖达 (Yu Yingda)
+# Yingda Yu
 
-**Email:** yuying@kean.edu | **Phone:** +86 137 0849 5892  
-**University:** Wenzhou Kean University  
-**Address:** No. 88, Daxue Road, Ouhai District, Wenzhou
+**Wenzhou-Kean University**<br>
+Email: [yuying@kean.edu](mailto:yuying@kean.edu)
 
----
+## About
 
-## 📚 EDUCATION
+I am an undergraduate student in Mathematics (Data Science Track) at Wenzhou-Kean University, with a minor in Computer Science. My research interests include Generative AI, Computer Vision, Multimodal Large Language Models, Video Generation, Image Restoration and Editing, and Remote Sensing.
 
-**Bachelor of Science in Mathematics (Data Science Track)**  
-Minors: Computer Science & Economics  
-[Wenzhou Kean University], 2023/9 – Present
+## Education
 
-* WKU AI Lab member
-* Teaching Assistant:
-  * Math 3700 Big Data Computing
-  * Math 3790 Machine Learning (Incoming)
+**Wenzhou-Kean University**<br>
+B.S. in Mathematics (Data Science Track)<br>
+Minor in Computer Science<br>
+September 2023 – Present
 
----
+## Research Training
 
-## 🔬 RESEARCH INTERESTS
+**Undergraduate Visiting Student**, The Chinese University of Hong Kong, Shenzhen<br>
+AISE Summer Camp · Supervisor: Prof. Simon Pun<br>
+June 2025 – August 2025
 
-### Machine Learning & Deep Learning
-* Imbalance learning (JCR Q1)
-* Transfer learning (CCF C)
-* Multimodel learning (CCF C)
+**Research Assistant**, Wenzhou-Kean University<br>
+Supervisor: Prof. Shuyang Xu<br>
+September 2024 – December 2025
 
-### Computer Vision & Remote Sensing
-* Image Classification and Segmentation (JCR Q2)
+- Spartina alterniflora Monitoring System
+- Remote Sensing and Earth Observation
 
-### AI for Science
-* Epidemic Disease Prediction (JCR Q2)
-* Full waveform inversion (CCF C)
+## Research Projects
 
----
+- Long-Chain Visual Reasoning with Multimodal Large Language Models
+- Chain-of-Thought Image Editing via Video Trajectories
+- Test-Time Adaptation under Dynamic Severity Shift
+- Dengue Fever Early Warning System
 
-## 💻 SKILLS
+## Publications
 
-### Languages
-English (Class language), Chinese (Native), Japanese (N3)
+### Accepted
 
-### Programming Languages
-Python, Java, C++, R, Matlab, HTML, Mathematica, Shell, LaTeX
+- **Learnable Trusted Sparse Attention (LTSA) for UHD Image Restoration.** CVIDL.
+- **Semantic-Conditioned Diffusion for Task-Driven Underwater Image Enhancement.** CVIPPR.
+- **Exploring Fractal Generative Models with Different Alternative Atomic Modules.**
 
-### Frameworks & Platforms
-PyTorch, TensorFlow, Keras, Ubuntu, Git, CUDA
+### Under Review
 
-### Libraries
-Scikit-Learn, SciPy, NumPy, OpenCV, Matplotlib, Pandas
+- **Think Before You Edit: Chain-of-Thought Image Editing via Video Trajectories.** PRCV 2026.
+- **Exploring Long-Chain Visual Reasoning with Multimodal Large Language Models.** PRCV 2026.
 
----
+## Technical Skills
 
-## 🎯 RESEARCH EXPERIENCE
+- **Programming:** Python, C++, Java
+- **Machine Learning:** PyTorch, TensorFlow, CUDA
+- **Computer Vision:** OpenCV, Diffusion Models, Vision-Language Models
+- **Remote Sensing:** Google Earth Engine, ArcGIS Pro
+- **Systems:** Linux, Git, Multi-GPU Training
 
-### Principal Investigator, Dengue Fever Early Warning System
-**2024/6 - Present**
+## Academic Activities
 
-* Led the development of a cross-disciplinary Dengue Fever early warning system, focusing on the integration of heterogeneous data, including various climate data, Google Trends, and satellite imagery, while leveraging multimodal learning techniques to enhance prediction accuracy.
-* Directed a multidisciplinary team of over 10 members from computer science, biology, and mathematics, and regularly engaged with domain experts to address challenges encountered during model construction.
-* The project outcomes include papers set to be submitted to the IJCNN conference and the journal Epidemics, with plans to provide predictive data to governments through an online platform to support policy-making decisions.
+- Fudan University (2024)
+- Shanghai Jiao Tong University (2025)
+- Research Day, Wenzhou-Kean University (2025)
+- AISE Summer Camp, The Chinese University of Hong Kong, Shenzhen (2025)
+- Central South University
 
-### Major Player, Mapping the invasive Spartina alterniflora with improved phenological spectral features and deep learning method
-**2024/9 - Present**
+## Honors & Awards
 
-* The project was initiated by Assistant Professor Xu Shuyang from our university's Environmental Science Department in response to Zhejiang Province's invasive species control plan introduced in 2023. I am responsible for the "Methods" section of the entire project.
-* Developed numerical models based on deep learning and phenological feature analysis to predict and monitor the distribution and dynamic changes of the invasive species Spartina alterniflora in Hangzhou Bay from 1998 to the present.
-* The project outcomes will be published in authoritative remote sensing journals such as Remote Sensing of Environment, providing scientific support for governmental environmental protection policies.
+- First Prize, Nestlé ESG Business Competition (2024)
+- Best Organization Award, Bank of China Internship (2024)
+- Cougar Pioneers Prize, Wenzhou-Kean University (2024)
 
----
+## Links
 
-## 🏆 AWARDS & HONORS
-
-* **The First Prize** [2024/5]  
-  Awarded for won first place in the ESG business competition held by Nestle in the southern Zhejiang region
-
-* **Best Organization Award** [2024/6]  
-  Awarded for excellent behavior during the internship period and building a data system to screen customers for Bank of China Wenzhou Li'ao Branch
-
-* **Cougar Pioneers Prize** [2024/9]  
-  Awarded for actively expanding extracurricular academic fields for Wenzhou Kean University
-
----
-
-## 📝 ACADEMIC ACTIVITIES
-
-* **Participant**, 2024/12 "International Conference on Data Science and Brain-Inspired Intelligence", Fudan University
-* More to come soon
-
----
-
-## 📧 Contact
-
-Feel free to reach out via email at **yuying@kean.edu** or phone at **+86 137 0849 5892**.
+- [GitHub](https://github.com/Yingda-Yu)
+- [Academic Website](https://yingda-yu.github.io/Dean-Yu-050325.github.io/)
