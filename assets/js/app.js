@@ -208,9 +208,15 @@
     });
 
     var btn = document.getElementById("research-expand-btn");
-    btn.textContent = researchExpanded
-      ? d.researchCollapse + " \u2191"
-      : d.researchExpand + " \u2193";
+    var expandWrap = btn.parentElement;
+    if (d.publications.additional && d.publications.additional.length > 0) {
+      expandWrap.style.display = "";
+      btn.textContent = researchExpanded
+        ? d.researchCollapse + " \u2191"
+        : d.researchExpand + " \u2193";
+    } else {
+      expandWrap.style.display = "none";
+    }
   }
 
   /* --------------------------------------------------------------------
@@ -558,7 +564,7 @@
     document.addEventListener("mouseup", onEnd);
     document.addEventListener("touchend", onEnd);
 
-    updateSlider(50);
+    updateSlider(0);
   }
 
   /* --------------------------------------------------------------------

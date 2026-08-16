@@ -147,71 +147,33 @@ var I18N = {
         },
         {
           year: "2026",
-          title: "Spatiotemporal mapping of Spartina alterniflora using Landsat imagery and interpretable machine learning",
-          venue: "Scientific Reports",
-          status: "Accepted",
-          role: "Second Author",
-          tags: ["Remote Sensing", "Environmental AI", "Interpretable ML"],
-          contribution:
-            "Spatiotemporal mapping of invasive Spartina alterniflora using " +
-            "Landsat time-series and interpretable machine learning for ecological monitoring.",
-          authors: null, paper: null, doi: null, code: null, project: null,
-        },
-        {
-          year: "2026",
-          title: "A physics-informed neural network approach to parameter estimation of a dengue fever model",
-          venue: "Scientific Reports",
-          status: "Accepted",
-          role: "First Author",
-          tags: ["PINNs", "Epidemic Modeling", "Scientific AI"],
-          contribution:
-            "A physics-informed neural network approach for parameter estimation " +
-            "in dengue fever epidemiological models.",
-          authors: null, paper: null, doi: null, code: null, project: null,
-        },
-        {
-          year: "2026",
-          title: "Learnable Trusted Sparse Attention (LTSA) for UHD Image Restoration",
-          venue: "CVIDL",
-          status: "Accepted",
-          role: null,
-          tags: ["Computer Vision", "Image Restoration"],
-          contribution:
-            "A learnable trusted sparse attention mechanism for ultra-high " +
-            "definition image restoration tasks.",
-          authors: null, paper: null, doi: null, code: null, project: null,
-        },
-      ],
-      additional: [
-        {
-          year: "2026",
-          title: "Think Before You Edit: Chain-of-Thought Image Editing via Video Trajectories",
-          venue: "PRCV 2026", status: "Under Review", role: null,
-          tags: ["Multimodal AI", "Image Editing"], contribution: null,
-          paper: null, doi: null,
-        },
-        {
-          year: "2026",
-          title: "Exploring Long-Chain Visual Reasoning with Multimodal Large Language Models",
-          venue: "PRCV 2026", status: "Under Review", role: null,
-          tags: ["Multimodal AI", "Visual Reasoning"], contribution: null,
-          paper: null, doi: null,
-        },
-        {
-          year: "2026",
-          title: "Semantic-Conditioned Diffusion for Task-Driven Underwater Image Enhancement",
-          venue: "CVIPPR", status: "Accepted", role: null,
-          tags: ["Computer Vision", "Diffusion Models"], contribution: null,
-          paper: null, doi: null,
-        },
-        {
-          year: "2026",
           title: "Exploring Fractal Generative Models with Different Alternative Atomic Modules",
-          venue: null, status: "Accepted", role: null,
-          tags: ["Generative AI", "Fractal Models"], contribution: null,
-          paper: null, doi: null,
+          venue: "6th Int'l Conf. on Image Processing and Intelligent Control",
+          status: "Published",
+          role: "First Author",
+          tags: ["Generative AI", "Fractal Models"],
+          contribution:
+            "Exploring fractal generative architectures with alternative atomic " +
+            "modules for image generation tasks.",
+          authors: "Yingda Yu, Jiaqi Xuan, Shuhui Shi, Xuanyu Teng, Guanchao Tong",
+          paper: null, doi: null, code: null, project: null,
+        },
+        {
+          year: "2026",
+          title: "OSEF: One-Step Evidence Fusion for Cross-Video Scene Procedure Planning",
+          venue: "arXiv Preprint",
+          status: "Preprint",
+          role: "Co-Author",
+          tags: ["Video Understanding", "Procedure Planning", "Multimodal AI"],
+          contribution:
+            "A one-step evidence fusion framework for cross-video scene " +
+            "procedure planning.",
+          authors: "Zhihao Ye, Lichen Zhang, Shengzhou Zhou, Yingda Yu, et al.",
+          paper: "https://arxiv.org/abs/2607.29401",
+          doi: null, code: null, project: null,
         },
       ],
+      additional: [],
     },
 
     researchExpand: "View all research",
@@ -391,68 +353,31 @@ var I18N = {
         },
         {
           year: "2026",
-          title: "Spatiotemporal mapping of Spartina alterniflora using Landsat imagery and interpretable machine learning",
-          venue: "Scientific Reports",
-          status: "\u5df2\u63a5\u6536",
-          role: "\u7b2c\u4e8c\u4f5c\u8005",
-          tags: ["\u9065\u611f", "\u73af\u5883 AI", "\u53ef\u89e3\u91ca\u673a\u5668\u5b66\u4e60"],
-          contribution:
-            "\u5229\u7528 Landsat \u65f6\u5e8f\u5217\u4e0e\u53ef\u89e3\u91ca\u673a\u5668\u5b66\u4e60\u5bf9\u5165\u4fb5\u7269\u79cd\u4e92\u82b1\u7c73\u8349\u8fdb\u884c\u65f6\u7a7a\u6d4b\u7ed8\u4e0e\u751f\u6001\u76d1\u6d4b\u3002",
-          authors: null, paper: null, doi: null, code: null, project: null,
-        },
-        {
-          year: "2026",
-          title: "A physics-informed neural network approach to parameter estimation of a dengue fever model",
-          venue: "Scientific Reports",
-          status: "\u5df2\u63a5\u6536",
-          role: "\u7b2c\u4e00\u4f5c\u8005",
-          tags: ["PINNs", "\u75ab\u60c5\u5efa\u6a21", "\u79d1\u5b66 AI"],
-          contribution:
-            "\u57fa\u4e8e\u7269\u7406\u4fe1\u606f\u795e\u7ecf\u7f51\u7edc\u7684\u767b\u9769\u70ed\u75ab\u60c5\u6a21\u578b\u53c2\u6570\u4f30\u8ba1\u65b9\u6cd5\u3002",
-          authors: null, paper: null, doi: null, code: null, project: null,
-        },
-        {
-          year: "2026",
-          title: "Learnable Trusted Sparse Attention (LTSA) for UHD Image Restoration",
-          venue: "CVIDL",
-          status: "\u5df2\u63a5\u6536",
-          role: null,
-          tags: ["\u8ba1\u7b97\u673a\u89c6\u89c9", "\u56fe\u50cf\u590d\u539f"],
-          contribution:
-            "\u7528\u4e8e\u8d85\u9ad8\u5206\u8fa8\u7387\u56fe\u50cf\u590d\u539f\u4efb\u52a1\u7684\u53ef\u5b66\u4e60\u4fe1\u4efb\u7a00\u758f\u6ce8\u610f\u529b\u673a\u5236\u3002",
-          authors: null, paper: null, doi: null, code: null, project: null,
-        },
-      ],
-      additional: [
-        {
-          year: "2026",
-          title: "Think Before You Edit: Chain-of-Thought Image Editing via Video Trajectories",
-          venue: "PRCV 2026", status: "\u5ba1\u7a3f\u4e2d", role: null,
-          tags: ["\u591a\u6a21\u6001 AI", "\u56fe\u50cf\u7f16\u8f91"], contribution: null,
-          paper: null, doi: null,
-        },
-        {
-          year: "2026",
-          title: "Exploring Long-Chain Visual Reasoning with Multimodal Large Language Models",
-          venue: "PRCV 2026", status: "\u5ba1\u7a3f\u4e2d", role: null,
-          tags: ["\u591a\u6a21\u6001 AI", "\u89c6\u89c9\u63a8\u7406"], contribution: null,
-          paper: null, doi: null,
-        },
-        {
-          year: "2026",
-          title: "Semantic-Conditioned Diffusion for Task-Driven Underwater Image Enhancement",
-          venue: "CVIPPR", status: "\u5df2\u63a5\u6536", role: null,
-          tags: ["\u8ba1\u7b97\u673a\u89c6\u89c9", "\u6269\u6563\u6a21\u578b"], contribution: null,
-          paper: null, doi: null,
-        },
-        {
-          year: "2026",
           title: "Exploring Fractal Generative Models with Different Alternative Atomic Modules",
-          venue: null, status: "\u5df2\u63a5\u6536", role: null,
-          tags: ["\u751f\u6210\u5f0f AI", "\u5206\u5f62\u6a21\u578b"], contribution: null,
-          paper: null, doi: null,
+          venue: "\u7b2c\u516d\u5c4a\u56fe\u50cf\u5904\u7406\u4e0e\u667a\u80fd\u63a7\u5236\u56fd\u9645\u4f1a\u8bae",
+          status: "\u5df2\u53d1\u8868",
+          role: "\u7b2c\u4e00\u4f5c\u8005",
+          tags: ["\u751f\u6210\u5f0f AI", "\u5206\u5f62\u6a21\u578b"],
+          contribution:
+            "\u63a2\u7d22\u4f7f\u7528\u4e0d\u540c\u539f\u5b50\u6a21\u5757\u7684\u5206\u5f62\u751f\u6210\u67b6\u6784\u7528\u4e8e\u56fe\u50cf\u751f\u6210\u4efb\u52a1\u3002",
+          authors: "Yingda Yu, Jiaqi Xuan, Shuhui Shi, Xuanyu Teng, Guanchao Tong",
+          paper: null, doi: null, code: null, project: null,
+        },
+        {
+          year: "2026",
+          title: "OSEF: One-Step Evidence Fusion for Cross-Video Scene Procedure Planning",
+          venue: "arXiv \u9884\u5370\u672c",
+          status: "\u9884\u5370\u672c",
+          role: "\u5408\u4f5c\u4f5c\u8005",
+          tags: ["\u89c6\u9891\u7406\u89e3", "\u6d41\u7a0b\u89c4\u5212", "\u591a\u6a21\u6001 AI"],
+          contribution:
+            "\u9762\u5411\u8de8\u89c6\u9891\u573a\u666f\u6d41\u7a0b\u89c4\u5212\u7684\u5355\u6b65\u8bc1\u636e\u878d\u5408\u6846\u67b6\u3002",
+          authors: "Zhihao Ye, Lichen Zhang, Shengzhou Zhou, Yingda Yu, et al.",
+          paper: "https://arxiv.org/abs/2607.29401",
+          doi: null, code: null, project: null,
         },
       ],
+      additional: [],
     },
 
     researchExpand: "\u67e5\u770b\u5168\u90e8\u7814\u7a76",

@@ -526,14 +526,14 @@ p {
 
 .photo-slider-before {
   z-index: 2;
-  clip-path: inset(0 0 0 50%);
+  clip-path: inset(0 0 0 0%);
 }
 
 .photo-slider-handle {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  left: 0%;
   z-index: 3;
   transform: translateX(-50%);
   display: flex;
@@ -547,7 +547,7 @@ p {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  left: 0%;
   width: 2px;
   background: var(--accent);
   transform: translateX(-50%);
