@@ -26,7 +26,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -36,13 +36,20 @@
   <!-- ==================== Navigation ==================== -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">Yingda</a>
+      <a href="#hero" class="nav-logo" id="nav-logo">Yingda</a>
       <div class="nav-links" id="nav-links"></div>
-      <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="nav-actions">
+        <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">
+          <span class="lang-en">EN</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-zh">中</span>
+        </button>
+        <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -58,29 +65,26 @@
     <canvas class="hero-canvas" id="hero-canvas"></canvas>
     <div class="hero-inner">
       <div class="hero-content reveal">
-        <p class="hero-greeting">Hi, I'm</p>
+        <p class="hero-greeting" id="hero-greeting"></p>
         <h1 class="hero-name" id="hero-name"></h1>
         <h2 class="hero-tagline" id="hero-tagline"></h2>
         <p class="hero-description" id="hero-description"></p>
-        <div class="hero-cta">
-          <a href="#work" class="btn btn-primary">
-            Explore my work <span class="arrow">&rarr;</span>
-          </a>
-          <a href="#about" class="btn btn-secondary">
-            About me
-          </a>
-        </div>
+        <div class="hero-cta" id="hero-cta"></div>
         <p class="hero-company-link" id="hero-company-link"></p>
       </div>
-      <div class="hero-visual"></div>
+      <div class="hero-visual reveal">
+        <div class="hero-photo-wrapper">
+          <img class="hero-photo" id="hero-photo" alt="Yingda Yu" loading="eager">
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ==================== About ==================== -->
   <section class="section" id="about">
     <div class="container">
-      <div class="section-label reveal">01 / About</div>
-      <h2 class="section-heading reveal">About</h2>
+      <div class="section-label reveal" id="label-about"></div>
+      <h2 class="section-heading reveal" id="heading-about"></h2>
       <div class="about-text reveal" id="about-text"></div>
       <div class="working-with reveal" id="working-with"></div>
     </div>
@@ -89,8 +93,8 @@
   <!-- ==================== Selected Work ==================== -->
   <section class="section" id="work">
     <div class="container">
-      <div class="section-label reveal">02 / Work</div>
-      <h2 class="section-heading reveal">Selected Work</h2>
+      <div class="section-label reveal" id="label-work"></div>
+      <h2 class="section-heading reveal" id="heading-work"></h2>
       <div class="work-list reveal-stagger" id="work-list"></div>
     </div>
   </section>
@@ -98,13 +102,11 @@
   <!-- ==================== Selected Research ==================== -->
   <section class="section" id="research">
     <div class="container">
-      <div class="section-label reveal">03 / Research</div>
-      <h2 class="section-heading reveal">Selected Research</h2>
+      <div class="section-label reveal" id="label-research"></div>
+      <h2 class="section-heading reveal" id="heading-research"></h2>
       <div class="research-list reveal-stagger" id="research-list"></div>
       <div class="research-expand reveal">
-        <button class="research-expand-btn" id="research-expand-btn">
-          View all research &darr;
-        </button>
+        <button class="research-expand-btn" id="research-expand-btn"></button>
       </div>
       <div class="research-additional" id="research-additional">
         <div class="research-list" id="research-additional-list" style="margin-top: 24px;"></div>
@@ -115,8 +117,8 @@
   <!-- ==================== Building Spartina ==================== -->
   <section class="section venture" id="venture">
     <div class="container">
-      <div class="section-label reveal">04 / Venture</div>
-      <h2 class="section-heading reveal">Building Spartina</h2>
+      <div class="section-label reveal" id="label-venture"></div>
+      <h2 class="section-heading reveal" id="heading-venture"></h2>
       <div class="venture-grid">
         <div class="venture-narrative reveal" id="venture-narrative"></div>
         <div class="venture-areas reveal" id="venture-areas"></div>
@@ -128,8 +130,8 @@
   <!-- ==================== Journey ==================== -->
   <section class="section" id="journey">
     <div class="container">
-      <div class="section-label reveal">05 / Journey</div>
-      <h2 class="section-heading reveal">Journey</h2>
+      <div class="section-label reveal" id="label-journey"></div>
+      <h2 class="section-heading reveal" id="heading-journey"></h2>
       <div class="timeline reveal-stagger" id="timeline"></div>
     </div>
   </section>
@@ -137,14 +139,14 @@
   <!-- ==================== Around the World ==================== -->
   <section class="section visitors" id="visitors">
     <div class="container">
-      <div class="section-label reveal">06 / World</div>
-      <h2 class="section-heading reveal">Around the World</h2>
+      <div class="section-label reveal" id="label-world"></div>
+      <h2 class="section-heading reveal" id="heading-world"></h2>
       <div class="visitors-grid reveal">
         <div class="globe-container">
           <canvas id="globe-canvas"></canvas>
         </div>
         <div class="visitor-stats" id="visitor-stats">
-          <div class="visitor-placeholder">Visitor analytics coming online.</div>
+          <div class="visitor-placeholder" id="visitor-placeholder"></div>
         </div>
       </div>
     </div>
@@ -154,11 +156,9 @@
   <section class="section contact" id="contact">
     <div class="container">
       <div class="reveal">
-        <h2 class="contact-heading">Let's build something meaningful.</h2>
-        <p class="contact-sub">Research, products, AI systems, or collaborations.</p>
-        <a href="#" class="contact-email" id="contact-email">
-          Say hello
-        </a>
+        <h2 class="contact-heading" id="contact-heading"></h2>
+        <p class="contact-sub" id="contact-sub"></p>
+        <a href="#" class="contact-email" id="contact-email"></a>
         <div class="contact-socials" id="contact-socials"></div>
       </div>
     </div>
@@ -167,7 +167,7 @@
   <!-- ==================== Footer ==================== -->
   <footer class="footer">
     <div class="container">
-      <p class="footer-text">Designed &amp; built by Yingda Yu.</p>
+      <p class="footer-text" id="footer-text"></p>
     </div>
   </footer>
 

@@ -1,12 +1,18 @@
 /**
- * Main Application Logic
- * Renders content, handles navigation, section reveals, and interactions.
+ * Main Application Logic — V2 Bilingual
+ * Renders content from I18N data, handles language switching,
+ * navigation, section reveals, and interactions.
  */
 (function () {
   "use strict";
 
-  var D = window.SITE_DATA;
-  if (!D) return;
+  var I18N = window.I18N;
+  var SHARED = window.SHARED;
+  if (!I18N || !SHARED) return;
+
+  var currentLang = window.DEFAULT_LANG || "en";
+  var researchExpanded = false;
+  var visitorData = null;
 
   /* --------------------------------------------------------------------
      SVG Icons
@@ -16,6 +22,8 @@
     github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>',
     linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
     scholar: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>',
+    orcid: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zM7.5 5.25a.75.75 0 110 1.5.75.75 0 010-1.5zM6.75 7.5h1.5v9h-1.5v-9zm3 0h4.5a4.5 4.5 0 010 9h-4.5v-9zm1.5 1.5v6h3a3 3 0 000-6h-3z"/></svg>',
+    dblp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
     email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
   };
 
@@ -23,11 +31,17 @@
      Helpers
      -------------------------------------------------------------------- */
 
+  function D() { return I18N[currentLang]; }
+
   function el(tag, className, html) {
     var e = document.createElement(tag);
     if (className) e.className = className;
     if (html !== undefined) e.innerHTML = html;
     return e;
+  }
+
+  function clear(node) {
+    while (node && node.firstChild) node.removeChild(node.firstChild);
   }
 
   function escapeAttr(s) {
@@ -37,11 +51,15 @@
 
   function statusClass(status) {
     var s = (status || "").toLowerCase();
-    if (s === "accepted" || s === "in press") return "status-accepted";
+    if (s === "accepted" || s === "in press" || s === "\u5df2\u63a5\u6536") return "status-accepted";
     if (s === "published") return "status-published";
-    if (s === "preprint") return "status-preprint";
-    if (s === "under review") return "status-under-review";
+    if (s === "preprint" || s === "\u9884\u5370\u672c") return "status-preprint";
+    if (s === "under review" || s === "\u5ba1\u7a3f\u4e2d") return "status-under-review";
     return "status-preprint";
+  }
+
+  function getLinkIcon(key) {
+    return ICONS[key] || "";
   }
 
   /* --------------------------------------------------------------------
@@ -49,21 +67,36 @@
      -------------------------------------------------------------------- */
 
   function renderHero() {
-    var nameEl = document.getElementById("hero-name");
-    var name = D.profile.name;
-    nameEl.innerHTML = name + "<span class='period'>.</span>";
+    var d = D();
 
-    document.getElementById("hero-tagline").textContent = D.profile.tagline;
-    document.getElementById("hero-description").textContent = D.profile.description;
+    document.getElementById("hero-greeting").textContent = d.profile.greeting;
+
+    var nameEl = document.getElementById("hero-name");
+    nameEl.innerHTML = d.profile.name + "<span class='period'>.</span>";
+
+    document.getElementById("hero-tagline").textContent = d.profile.tagline;
+    document.getElementById("hero-description").textContent = d.profile.description;
+
+    var cta = document.getElementById("hero-cta");
+    clear(cta);
+    cta.appendChild(el("a", "btn btn-primary",
+      d.heroCTA.primary + " <span class='arrow'>&#8594;</span>"));
+    cta.firstChild.href = "#work";
+    cta.appendChild(el("a", "btn btn-secondary", d.heroCTA.secondary));
+    cta.lastChild.href = "#about";
 
     var companyLink = document.getElementById("hero-company-link");
-    if (D.company.url) {
+    if (SHARED.company.url) {
       companyLink.innerHTML =
-        "Founder @ <a href=\"" + escapeAttr(D.company.url) + "\" target=\"_blank\" rel=\"noopener\">" +
-        D.company.name + " &#8599;</a>";
+        d.company.heroText + " &#8594; <a href=\"" + escapeAttr(SHARED.company.url) +
+        "\" target=\"_blank\" rel=\"noopener\">" + d.company.name + " &#8599;</a>";
     } else {
-      companyLink.innerHTML =
-        "Founder @ <span>" + D.company.name + "</span>";
+      companyLink.innerHTML = d.company.heroText + " &#8594; <span>" + d.company.name + "</span>";
+    }
+
+    var photo = document.getElementById("hero-photo");
+    if (SHARED.company.photo) {
+      photo.src = SHARED.company.photo;
     }
   }
 
@@ -72,14 +105,21 @@
      -------------------------------------------------------------------- */
 
   function renderAbout() {
+    var d = D();
+
+    document.getElementById("label-about").textContent = d.sections.about;
+    document.getElementById("heading-about").textContent = d.headings.about;
+
     var aboutText = document.getElementById("about-text");
-    D.about.forEach(function (para) {
+    clear(aboutText);
+    d.about.forEach(function (para) {
       aboutText.appendChild(el("p", null, para));
     });
 
     var ww = document.getElementById("working-with");
-    ww.appendChild(el("div", "label", "Working With"));
-    D.workingWith.forEach(function (skill) {
+    clear(ww);
+    ww.appendChild(el("div", "label", d.workingWithLabel));
+    d.workingWith.forEach(function (skill) {
       ww.appendChild(el("span", "tag", skill));
     });
   }
@@ -89,8 +129,15 @@
      -------------------------------------------------------------------- */
 
   function renderWork() {
+    var d = D();
+
+    document.getElementById("label-work").textContent = d.sections.work;
+    document.getElementById("heading-work").textContent = d.headings.work;
+
     var list = document.getElementById("work-list");
-    D.projects.forEach(function (p) {
+    clear(list);
+
+    d.projects.forEach(function (p) {
       var item = el("div", "work-item");
 
       if (p.url) {
@@ -173,15 +220,27 @@
   }
 
   function renderResearch() {
+    var d = D();
+
+    document.getElementById("label-research").textContent = d.sections.research;
+    document.getElementById("heading-research").textContent = d.headings.research;
+
     var list = document.getElementById("research-list");
-    D.publications.selected.forEach(function (pub) {
+    clear(list);
+    d.publications.selected.forEach(function (pub) {
       list.appendChild(renderResearchItem(pub));
     });
 
     var additionalList = document.getElementById("research-additional-list");
-    D.publications.additional.forEach(function (pub) {
+    clear(additionalList);
+    d.publications.additional.forEach(function (pub) {
       additionalList.appendChild(renderResearchItem(pub));
     });
+
+    var btn = document.getElementById("research-expand-btn");
+    btn.textContent = researchExpanded
+      ? d.researchCollapse + " \u2191"
+      : d.researchExpand + " \u2193";
   }
 
   /* --------------------------------------------------------------------
@@ -189,35 +248,34 @@
      -------------------------------------------------------------------- */
 
   function renderVenture() {
+    var d = D();
+
+    document.getElementById("label-venture").textContent = d.sections.venture;
+    document.getElementById("heading-venture").textContent = d.headings.venture;
+
     var narrative = document.getElementById("venture-narrative");
     narrative.innerHTML =
-      "Founder of <span class=\"company-name\">" + D.company.name + "</span>, " +
-      D.company.description;
+      d.company.description;
 
     var areas = document.getElementById("venture-areas");
-    var areaDescriptions = {
-      "Visual Intelligence": "Computer vision, image processing, and visual data systems.",
-      "Generative Systems": "AI image and video generation, digital humans, and content pipelines.",
-      "Applied AI": "Enterprise AI solutions bridging research and real-world deployment.",
-    };
-
-    D.company.areas.forEach(function (area) {
+    clear(areas);
+    d.company.areas.forEach(function (area) {
       var div = el("div", "venture-area");
       div.innerHTML =
-        "<h4>" + area + "</h4>" +
-        "<p>" + (areaDescriptions[area] || "") + "</p>";
+        "<h4>" + area.name + "</h4>" +
+        "<p>" + area.desc + "</p>";
       areas.appendChild(div);
     });
 
     var linkContainer = document.getElementById("venture-link-container");
-    if (D.company.url) {
+    if (SHARED.company.url) {
       linkContainer.innerHTML =
-        '<a class="venture-link" href="' + escapeAttr(D.company.url) + '" target="_blank" rel="noopener">' +
-        "Visit " + D.company.name + " <span class=\"arrow\">&#8594;</span></a>";
+        '<a class="venture-link" href="' + escapeAttr(SHARED.company.url) + '" target="_blank" rel="noopener">' +
+        d.company.visitLink + " <span class=\"arrow\">&#8594;</span></a>";
     } else {
       linkContainer.innerHTML =
         '<span class="venture-link disabled">' +
-        D.company.name + " link coming soon</span>";
+        d.company.linkComingSoon + "</span>";
     }
   }
 
@@ -226,8 +284,14 @@
      -------------------------------------------------------------------- */
 
   function renderJourney() {
+    var d = D();
+
+    document.getElementById("label-journey").textContent = d.sections.journey;
+    document.getElementById("heading-journey").textContent = d.headings.journey;
+
     var timeline = document.getElementById("timeline");
-    D.journey.forEach(function (item) {
+    clear(timeline);
+    d.journey.forEach(function (item) {
       var div = el("div", "timeline-item");
       div.innerHTML =
         '<div class="timeline-year">' + item.year + "</div>" +
@@ -239,14 +303,35 @@
   }
 
   /* --------------------------------------------------------------------
+     Render: Visitors
+     -------------------------------------------------------------------- */
+
+  function renderVisitors() {
+    var d = D();
+
+    document.getElementById("label-world").textContent = d.sections.world;
+    document.getElementById("heading-world").textContent = d.headings.world;
+
+    if (visitorData && !visitorData.mock) {
+      renderVisitorStats(visitorData);
+    } else {
+      document.getElementById("visitor-placeholder").textContent = d.visitorPlaceholder;
+    }
+  }
+
+  /* --------------------------------------------------------------------
      Render: Navigation
      -------------------------------------------------------------------- */
 
   function renderNav() {
+    var d = D();
     var navLinks = document.getElementById("nav-links");
     var mobileMenu = document.getElementById("mobile-menu");
 
-    D.nav.forEach(function (item) {
+    clear(navLinks);
+    clear(mobileMenu);
+
+    d.nav.forEach(function (item) {
       var a = el("a", null, item.label);
       a.href = item.href;
       navLinks.appendChild(a);
@@ -258,47 +343,33 @@
   }
 
   /* --------------------------------------------------------------------
-     Render: Side Social
+     Render: Side Social (desktop)
      -------------------------------------------------------------------- */
 
   function renderSideSocial() {
+    var d = D();
     var sideSocial = document.getElementById("side-social");
     var sideEmail = document.getElementById("side-email");
 
-    if (D.social.github.url) {
-      var gh = el("a");
-      gh.href = D.social.github.url;
-      gh.target = "_blank";
-      gh.rel = "noopener";
-      gh.setAttribute("aria-label", "GitHub");
-      gh.innerHTML = ICONS.github;
-      sideSocial.appendChild(gh);
-    }
+    clear(sideSocial);
+    clear(sideEmail);
 
-    if (D.social.linkedin.url) {
-      var li = el("a");
-      li.href = D.social.linkedin.url;
-      li.target = "_blank";
-      li.rel = "noopener";
-      li.setAttribute("aria-label", "LinkedIn");
-      li.innerHTML = ICONS.linkedin;
-      sideSocial.appendChild(li);
-    }
+    SHARED.sideSocialOrder.forEach(function (key) {
+      var link = d.links[key];
+      if (!link || !link.url) return;
+      var a = el("a");
+      a.href = link.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.setAttribute("aria-label", link.label);
+      a.innerHTML = getLinkIcon(key);
+      sideSocial.appendChild(a);
+    });
 
-    if (D.social.scholar.url) {
-      var sc = el("a");
-      sc.href = D.social.scholar.url;
-      sc.target = "_blank";
-      sc.rel = "noopener";
-      sc.setAttribute("aria-label", "Google Scholar");
-      sc.innerHTML = ICONS.scholar;
-      sideSocial.appendChild(sc);
-    }
-
-    if (D.profile.email) {
+    if (d.profile.email) {
       var ea = el("a");
-      ea.href = "mailto:" + D.profile.email;
-      ea.textContent = D.profile.email;
+      ea.href = "mailto:" + d.profile.email;
+      ea.textContent = d.profile.email;
       sideEmail.appendChild(ea);
     }
   }
@@ -308,32 +379,36 @@
      -------------------------------------------------------------------- */
 
   function renderContact() {
+    var d = D();
+
+    document.getElementById("contact-heading").textContent = d.headings.contact;
+    document.getElementById("contact-sub").textContent = d.headings.contactSub;
+
     var emailBtn = document.getElementById("contact-email");
-    emailBtn.href = "mailto:" + D.profile.email;
+    emailBtn.href = "mailto:" + d.profile.email;
+    emailBtn.innerHTML = ICONS.email + " " + d.headings.contactBtn;
 
     var socials = document.getElementById("contact-socials");
+    clear(socials);
 
-    if (D.social.github.url) {
-      socials.appendChild(buildSocialLink("GitHub", D.social.github.url, ICONS.github));
-    }
-    if (D.social.linkedin.url) {
-      socials.appendChild(buildSocialLink("LinkedIn", D.social.linkedin.url, ICONS.linkedin));
-    }
-    if (D.social.scholar.url) {
-      socials.appendChild(buildSocialLink("Scholar", D.social.scholar.url, ICONS.scholar));
-    }
-    if (D.company.url) {
-      socials.appendChild(buildSocialLink(D.company.name, D.company.url, null));
-    }
+    SHARED.socialOrder.forEach(function (key) {
+      var link = d.links[key];
+      if (!link || !link.url) return;
+      var a = el("a");
+      a.href = link.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.innerHTML = getLinkIcon(key) + " " + link.label + " &#8599;";
+      socials.appendChild(a);
+    });
   }
 
-  function buildSocialLink(label, url, icon) {
-    var a = el("a");
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.innerHTML = (icon || "") + " " + label + " &#8599;";
-    return a;
+  /* --------------------------------------------------------------------
+     Render: Footer
+     -------------------------------------------------------------------- */
+
+  function renderFooter() {
+    document.getElementById("footer-text").textContent = D().footer;
   }
 
   /* --------------------------------------------------------------------
@@ -341,33 +416,29 @@
      -------------------------------------------------------------------- */
 
   function loadVisitorStats() {
-    var statsContainer = document.getElementById("visitor-stats");
-
     fetch("./assets/data/visitor-stats.json")
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (!data || data.mock) {
-          return;
-        }
+        if (!data || data.mock) return;
+        visitorData = data;
         renderVisitorStats(data);
       })
-      .catch(function () {
-        // Keep the placeholder text
-      });
+      .catch(function () { });
   }
 
   function renderVisitorStats(data) {
+    var d = D();
     var statsContainer = document.getElementById("visitor-stats");
     statsContainer.innerHTML = "";
 
     var numbers = el("div", "visitor-numbers");
-    numbers.appendChild(buildStat(data.visitors || 0, "Visitors"));
-    numbers.appendChild(buildStat(data.countries || 0, "Countries"));
+    numbers.appendChild(buildStat(data.visitors || 0, d.visitorLabels.visitors));
+    numbers.appendChild(buildStat(data.countries || 0, d.visitorLabels.countries));
     statsContainer.appendChild(numbers);
 
     if (data.topCountries && data.topCountries.length) {
       var countriesDiv = el("div", "visitor-countries");
-      countriesDiv.appendChild(el("div", "label", "Top Locations"));
+      countriesDiv.appendChild(el("div", "label", d.visitorLabels.topLocations));
       data.topCountries.forEach(function (c) {
         var row = el("div", "country-row");
         row.innerHTML =
@@ -393,6 +464,58 @@
   }
 
   /* --------------------------------------------------------------------
+     Language Toggle
+     -------------------------------------------------------------------- */
+
+  function updateLangToggle() {
+    var btn = document.getElementById("lang-toggle");
+    var enSpan = btn.querySelector(".lang-en");
+    var zhSpan = btn.querySelector(".lang-zh");
+    if (currentLang === "en") {
+      enSpan.classList.add("lang-active");
+      zhSpan.classList.remove("lang-active");
+    } else {
+      enSpan.classList.remove("lang-active");
+      zhSpan.classList.add("lang-active");
+    }
+  }
+
+  function switchLang(lang) {
+    if (lang === currentLang) return;
+    currentLang = lang;
+    try { localStorage.setItem("site-lang", lang); } catch (e) { }
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    renderAll();
+  }
+
+  function initLangToggle() {
+    var btn = document.getElementById("lang-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      switchLang(currentLang === "en" ? "zh" : "en");
+    });
+  }
+
+  /* --------------------------------------------------------------------
+     Render All (used on init and language switch)
+     -------------------------------------------------------------------- */
+
+  function renderAll() {
+    renderHero();
+    renderNav();
+    renderAbout();
+    renderWork();
+    renderResearch();
+    renderVenture();
+    renderJourney();
+    renderVisitors();
+    renderSideSocial();
+    renderContact();
+    renderFooter();
+    updateLangToggle();
+  }
+
+  /* --------------------------------------------------------------------
      Interactions: Navigation
      -------------------------------------------------------------------- */
 
@@ -414,14 +537,15 @@
       mobileMenu.classList.toggle("open");
     });
 
-    mobileMenu.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        toggle.classList.remove("open");
-        mobileMenu.classList.remove("open");
-      });
+    function closeMobile() {
+      toggle.classList.remove("open");
+      mobileMenu.classList.remove("open");
+    }
+
+    mobileMenu.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") closeMobile();
     });
 
-    // Active section highlighting
     var sections = document.querySelectorAll("section[id]");
     var navItems = document.querySelectorAll(".nav-links a, .mobile-menu a");
 
@@ -477,11 +601,13 @@
     var additional = document.getElementById("research-additional");
     if (!btn || !additional) return;
 
-    var isOpen = false;
     btn.addEventListener("click", function () {
-      isOpen = !isOpen;
-      additional.classList.toggle("open", isOpen);
-      btn.textContent = isOpen ? "Show less \u2191" : "View all research \u2193";
+      researchExpanded = !researchExpanded;
+      additional.classList.toggle("open", researchExpanded);
+      var d = D();
+      btn.textContent = researchExpanded
+        ? d.researchCollapse + " \u2191"
+        : d.researchExpand + " \u2193";
     });
   }
 
@@ -490,19 +616,13 @@
      -------------------------------------------------------------------- */
 
   function init() {
-    renderHero();
-    renderAbout();
-    renderWork();
-    renderResearch();
-    renderVenture();
-    renderJourney();
-    renderNav();
-    renderSideSocial();
-    renderContact();
-    loadVisitorStats();
+    document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
+    renderAll();
     initNav();
     initReveals();
     initResearchExpand();
+    initLangToggle();
+    loadVisitorStats();
   }
 
   if (document.readyState === "loading") {
