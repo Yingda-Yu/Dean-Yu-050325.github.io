@@ -45,31 +45,34 @@ var I18N = {
 
     nav: [
       { label: "About", href: "#about" },
+      { label: "Publications", href: "#publications" },
       { label: "Work", href: "#work" },
-      { label: "Research", href: "#research" },
-      { label: "Venture", href: "#venture" },
+      { label: "Journey", href: "#journey" },
       { label: "Contact", href: "#contact" },
     ],
 
     sections: {
       about: "01 / About",
-      work: "02 / Work",
-      research: "03 / Research",
-      venture: "04 / Venture",
-      journey: "05 / Journey",
-      world: "06 / World",
+      publications: "02 / Publications",
+      work: "03 / Work",
+      journey: "04 / Journey",
+      world: "05 / World",
     },
 
     headings: {
       about: "About",
-      work: "Selected Work",
-      research: "Selected Research",
-      venture: "Building Spartina",
+      publications: "Publications",
+      work: "My Work",
       journey: "Journey",
       world: "Around the World",
       contact: "Let's build something meaningful.",
       contactSub: "Research, products, AI systems, or collaborations.",
       contactBtn: "Say hello",
+    },
+
+    workLabels: {
+      projects: "Projects",
+      venture: "Spartina Technology",
     },
 
     about: [
@@ -219,25 +222,25 @@ var I18N = {
         year: "2026",
         title: "Founder / AI Builder",
         org: "Spartina Technology",
-        detail: "Building applied AI products across visual intelligence, generative systems, and digital content.",
+        detail: null,
       },
       {
         year: "2025",
         title: "Visiting Researcher",
-        org: "The Chinese University of Hong Kong, Shenzhen",
-        detail: "AISE Summer Camp \u00b7 Supervisor: Prof. Simon Pun",
+        org: "CUHK, Shenzhen",
+        detail: "Supervisor: Prof. Simon Pun",
       },
       {
         year: "2024\u20142025",
         title: "Research Assistant",
         org: "Wenzhou-Kean University",
-        detail: "Supervisor: Prof. Shuyang Xu \u00b7 Spartina alterniflora monitoring, remote sensing, and earth observation.",
+        detail: "Supervisor: Prof. Shuyang Xu",
       },
       {
         year: "2023\u2014Now",
-        title: "B.S. Mathematics (Data Science Track)",
+        title: "B.S. Mathematics, Data Science",
         org: "Wenzhou-Kean University",
-        detail: "Minor in Computer Science",
+        detail: "Minor in CS",
       },
     ],
 
@@ -294,31 +297,34 @@ var I18N = {
 
     nav: [
       { label: "\u5173\u4e8e", href: "#about" },
+      { label: "\u8bba\u6587", href: "#publications" },
       { label: "\u4f5c\u54c1", href: "#work" },
-      { label: "\u7814\u7a76", href: "#research" },
-      { label: "\u521b\u4e1a", href: "#venture" },
+      { label: "\u5386\u7a0b", href: "#journey" },
       { label: "\u8054\u7cfb", href: "#contact" },
     ],
 
     sections: {
       about: "01 / \u5173\u4e8e",
-      work: "02 / \u4f5c\u54c1",
-      research: "03 / \u7814\u7a76",
-      venture: "04 / \u521b\u4e1a",
-      journey: "05 / \u5386\u7a0b",
-      world: "06 / \u4e16\u754c",
+      publications: "02 / \u8bba\u6587",
+      work: "03 / \u4f5c\u54c1",
+      journey: "04 / \u5386\u7a0b",
+      world: "05 / \u4e16\u754c",
     },
 
     headings: {
       about: "\u5173\u4e8e",
-      work: "\u7cbe\u9009\u4f5c\u54c1",
-      research: "\u7cbe\u9009\u7814\u7a76",
-      venture: "\u6784\u5efa\u7c73\u8349",
+      publications: "\u8bba\u6587",
+      work: "\u6211\u7684\u4f5c\u54c1",
       journey: "\u5386\u7a0b",
       world: "\u904d\u5e03\u5168\u7403",
       contact: "\u8ba9\u6211\u4eec\u4e00\u8d77\u521b\u9020\u6709\u610f\u4e49\u7684\u6210\u679c\u3002",
       contactSub: "\u7814\u7a76\u3001\u4ea7\u54c1\u3001AI \u7cfb\u7edf\u6216\u5408\u4f5c\u3002",
       contactBtn: "\u8bf4\u4f60\u597d",
+    },
+
+    workLabels: {
+      projects: "\u9879\u76ee",
+      venture: "\u7c73\u8349\u79d1\u6280",
     },
 
     about: [
@@ -457,23 +463,23 @@ var I18N = {
         year: "2026",
         title: "\u521b\u59cb\u4eba / AI \u6784\u5efa\u8005",
         org: "\u7c73\u8349\u79d1\u6280",
-        detail: "\u8de8\u89c6\u89c9\u667a\u80fd\u3001\u751f\u6210\u5f0f\u7cfb\u7edf\u4e0e\u6570\u5b57\u5185\u5bb9\uff0c\u6784\u5efa\u5e94\u7528\u7ea7 AI \u4ea7\u54c1\u3002",
+        detail: null,
       },
       {
         year: "2025",
         title: "\u8bbf\u95ee\u7814\u7a76\u8005",
-        org: "\u9999\u6e2f\u4e2d\u6587\u5927\u5b66\uff08\u6df1\u5733\uff09",
-        detail: "AISE \u590f\u4ee4\u8425 \u00b7 \u6307\u5bfc\u8001\u5e08\uff1aProf. Simon Pun",
+        org: "\u6e2f\u4e2d\u5927\uff08\u6df1\u5733\uff09",
+        detail: "\u6307\u5bfc\u8001\u5e08\uff1aProf. Simon Pun",
       },
       {
         year: "2024\u20142025",
         title: "\u7814\u7a76\u52a9\u7406",
         org: "\u6e29\u5dde\u80af\u6069\u5927\u5b66",
-        detail: "\u6307\u5bfc\u8001\u5e08\uff1a\u5f90\u8212\u9633\u6559\u6388 \u00b7 \u4e92\u82b1\u7c73\u8349\u76d1\u6d4b\u7cfb\u7edf\u3001\u9065\u611f\u4e0e\u5bf9\u5730\u89c2\u6d4b\u3002",
+        detail: "\u6307\u5bfc\u8001\u5e08\uff1a\u5f90\u8212\u9633\u6559\u6388",
       },
       {
         year: "2023\u2014\u81f3\u4eca",
-        title: "\u6570\u5b66\u5b66\u58eb\uff08\u6570\u636e\u79d1\u5b66\u65b9\u5411\uff09",
+        title: "\u6570\u5b66\u5b66\u58eb\uff0c\u6570\u636e\u79d1\u5b66",
         org: "\u6e29\u5dde\u80af\u6069\u5927\u5b66",
         detail: "\u8f85\u4fee\u8ba1\u7b97\u673a\u79d1\u5b66",
       },
@@ -502,6 +508,12 @@ var SHARED = {
     url: "https://www.spartina.tech/",
     photo: "./assets/images/profile-original.jpg",
   },
+  stylizedPhoto: "./assets/images/profile-stylized-3.jpg",
+  stylizedAlternatives: [
+    "./assets/images/profile-stylized-1.jpg",
+    "./assets/images/profile-stylized-2.jpg",
+    "./assets/images/profile-stylized-3.jpg",
+  ],
   socialOrder: ["scholar", "github", "orcid", "dblp", "linkedin"],
   sideSocialOrder: ["scholar", "github", "linkedin"],
 };

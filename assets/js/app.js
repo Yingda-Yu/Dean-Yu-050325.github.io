@@ -1,7 +1,7 @@
 /**
  * Main Application Logic — V2 Bilingual
  * Renders content from I18N data, handles language switching,
- * navigation, section reveals, and interactions.
+ * photo slider, navigation, section reveals, and IP visitor tracking.
  */
 (function () {
   "use strict";
@@ -13,6 +13,7 @@
   var currentLang = window.DEFAULT_LANG || "en";
   var researchExpanded = false;
   var visitorData = null;
+  var visitorLocation = null;
 
   /* --------------------------------------------------------------------
      SVG Icons
@@ -63,7 +64,7 @@
   }
 
   /* --------------------------------------------------------------------
-     Render: Hero
+     Render: Hero (with photo slider)
      -------------------------------------------------------------------- */
 
   function renderHero() {
@@ -81,7 +82,7 @@
     clear(cta);
     cta.appendChild(el("a", "btn btn-primary",
       d.heroCTA.primary + " <span class='arrow'>&#8594;</span>"));
-    cta.firstChild.href = "#work";
+    cta.firstChild.href = "#publications";
     cta.appendChild(el("a", "btn btn-secondary", d.heroCTA.secondary));
     cta.lastChild.href = "#about";
 
@@ -94,10 +95,15 @@
       companyLink.innerHTML = d.company.heroText + " &#8594; <span>" + d.company.name + "</span>";
     }
 
-    var photo = document.getElementById("hero-photo");
-    if (SHARED.company.photo) {
-      photo.src = SHARED.company.photo;
-    }
+    var photoReal = document.getElementById("hero-photo-real");
+    var photoStylized = document.getElementById("hero-photo-stylized");
+    if (SHARED.company.photo) photoReal.src = SHARED.company.photo;
+    if (SHARED.stylizedPhoto) photoStylized.src = SHARED.stylizedPhoto;
+
+    var labelReal = document.getElementById("photo-label-real");
+    var labelAI = document.getElementById("photo-label-ai");
+    labelReal.textContent = currentLang === "zh" ? "\u771f\u5b9e" : "Real";
+    labelAI.textContent = "AI";
   }
 
   /* --------------------------------------------------------------------
@@ -125,43 +131,7 @@
   }
 
   /* --------------------------------------------------------------------
-     Render: Selected Work
-     -------------------------------------------------------------------- */
-
-  function renderWork() {
-    var d = D();
-
-    document.getElementById("label-work").textContent = d.sections.work;
-    document.getElementById("heading-work").textContent = d.headings.work;
-
-    var list = document.getElementById("work-list");
-    clear(list);
-
-    d.projects.forEach(function (p) {
-      var item = el("div", "work-item");
-
-      if (p.url) {
-        item.style.cursor = "pointer";
-        item.addEventListener("click", function () {
-          window.open(p.url, "_blank");
-        });
-      }
-
-      item.innerHTML =
-        "<div class=\"work-number\">" + p.number + "</div>" +
-        "<div class=\"work-body\">" +
-        "<h3>" + p.name + "</h3>" +
-        "<p class=\"work-description\">" + p.description + "</p>" +
-        "<p class=\"work-meta\">" + p.category + " &middot; " + p.year + "</p>" +
-        "</div>" +
-        "<div class=\"work-arrow\">&#8599;</div>";
-
-      list.appendChild(item);
-    });
-  }
-
-  /* --------------------------------------------------------------------
-     Render: Selected Research
+     Render: Publications (was Selected Research)
      -------------------------------------------------------------------- */
 
   function renderResearchItem(pub) {
@@ -219,11 +189,11 @@
     return item;
   }
 
-  function renderResearch() {
+  function renderPublications() {
     var d = D();
 
-    document.getElementById("label-research").textContent = d.sections.research;
-    document.getElementById("heading-research").textContent = d.headings.research;
+    document.getElementById("label-publications").textContent = d.sections.publications;
+    document.getElementById("heading-publications").textContent = d.headings.publications;
 
     var list = document.getElementById("research-list");
     clear(list);
@@ -244,18 +214,46 @@
   }
 
   /* --------------------------------------------------------------------
-     Render: Venture
+     Render: My Work (merged Projects + Venture)
      -------------------------------------------------------------------- */
 
-  function renderVenture() {
+  function renderWork() {
     var d = D();
 
-    document.getElementById("label-venture").textContent = d.sections.venture;
-    document.getElementById("heading-venture").textContent = d.headings.venture;
+    document.getElementById("label-work").textContent = d.sections.work;
+    document.getElementById("heading-work").textContent = d.headings.work;
+    document.getElementById("work-projects-label").textContent = d.workLabels.projects;
+    document.getElementById("work-venture-label").textContent = d.workLabels.venture;
 
+    /* Projects */
+    var list = document.getElementById("work-list");
+    clear(list);
+
+    d.projects.forEach(function (p) {
+      var item = el("div", "work-item");
+
+      if (p.url) {
+        item.style.cursor = "pointer";
+        item.addEventListener("click", function () {
+          window.open(p.url, "_blank");
+        });
+      }
+
+      item.innerHTML =
+        "<div class=\"work-number\">" + p.number + "</div>" +
+        "<div class=\"work-body\">" +
+        "<h3>" + p.name + "</h3>" +
+        "<p class=\"work-description\">" + p.description + "</p>" +
+        "<p class=\"work-meta\">" + p.category + " &middot; " + p.year + "</p>" +
+        "</div>" +
+        "<div class=\"work-arrow\">&#8599;</div>";
+
+      list.appendChild(item);
+    });
+
+    /* Venture */
     var narrative = document.getElementById("venture-narrative");
-    narrative.innerHTML =
-      d.company.description;
+    narrative.innerHTML = d.company.description;
 
     var areas = document.getElementById("venture-areas");
     clear(areas);
@@ -303,7 +301,7 @@
   }
 
   /* --------------------------------------------------------------------
-     Render: Visitors
+     Render: Visitors (with IP tracking)
      -------------------------------------------------------------------- */
 
   function renderVisitors() {
@@ -314,6 +312,8 @@
 
     if (visitorData && !visitorData.mock) {
       renderVisitorStats(visitorData);
+    } else if (visitorLocation) {
+      renderVisitorLocation();
     } else {
       document.getElementById("visitor-placeholder").textContent = d.visitorPlaceholder;
     }
@@ -412,7 +412,7 @@
   }
 
   /* --------------------------------------------------------------------
-     Visitor Stats
+     Visitor Stats (from JSON)
      -------------------------------------------------------------------- */
 
   function loadVisitorStats() {
@@ -464,6 +464,104 @@
   }
 
   /* --------------------------------------------------------------------
+     Visitor Location (IP-based)
+     -------------------------------------------------------------------- */
+
+  function loadVisitorLocation() {
+    fetch("https://ipwho.is/")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.success !== false && data.latitude) {
+          visitorLocation = {
+            city: data.city,
+            country: data.country,
+            countryCode: data.country_code,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            ip: data.ip,
+          };
+          if (window.addVisitorPoint && typeof window.addVisitorPoint === "function") {
+            window.addVisitorPoint(visitorLocation.latitude, visitorLocation.longitude);
+          }
+          if (!visitorData || visitorData.mock) {
+            renderVisitorLocation();
+          }
+        }
+      })
+      .catch(function () { });
+  }
+
+  function renderVisitorLocation() {
+    var d = D();
+    var statsContainer = document.getElementById("visitor-stats");
+    statsContainer.innerHTML = "";
+
+    var locDiv = el("div", "visitor-location");
+    var youText = currentLang === "zh"
+      ? "\u4f60\u6b63\u4ece"
+      : "You're visiting from";
+    locDiv.innerHTML =
+      '<div class="visitor-location-text">' +
+      youText + " <strong>" + (visitorLocation.city || "") + ", " + (visitorLocation.country || "") + "</strong>" +
+      "</div>";
+    statsContainer.appendChild(locDiv);
+  }
+
+  /* --------------------------------------------------------------------
+     Photo Slider
+     -------------------------------------------------------------------- */
+
+  function initPhotoSlider() {
+    var slider = document.getElementById("photo-slider");
+    if (!slider) return;
+
+    var isDragging = false;
+
+    function getPercent(clientX) {
+      var rect = slider.getBoundingClientRect();
+      var x = clientX - rect.left;
+      var percent = (x / rect.width) * 100;
+      return Math.max(0, Math.min(100, percent));
+    }
+
+    function updateSlider(percent) {
+      var before = document.getElementById("photo-slider-before");
+      var handle = document.getElementById("photo-slider-handle");
+      before.style.clipPath = "inset(0 0 0 " + percent + "%)";
+      handle.style.left = percent + "%";
+    }
+
+    function onMove(e) {
+      if (!isDragging) return;
+      var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      updateSlider(getPercent(clientX));
+      e.preventDefault();
+    }
+
+    function onStart(e) {
+      isDragging = true;
+      var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      updateSlider(getPercent(clientX));
+      e.preventDefault();
+    }
+
+    function onEnd() {
+      isDragging = false;
+    }
+
+    slider.addEventListener("mousedown", onStart);
+    slider.addEventListener("touchstart", onStart, { passive: false });
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("touchmove", onMove, { passive: false });
+
+    document.addEventListener("mouseup", onEnd);
+    document.addEventListener("touchend", onEnd);
+
+    updateSlider(50);
+  }
+
+  /* --------------------------------------------------------------------
      Language Toggle
      -------------------------------------------------------------------- */
 
@@ -497,16 +595,15 @@
   }
 
   /* --------------------------------------------------------------------
-     Render All (used on init and language switch)
+     Render All
      -------------------------------------------------------------------- */
 
   function renderAll() {
     renderHero();
     renderNav();
     renderAbout();
+    renderPublications();
     renderWork();
-    renderResearch();
-    renderVenture();
     renderJourney();
     renderVisitors();
     renderSideSocial();
@@ -622,7 +719,9 @@
     initReveals();
     initResearchExpand();
     initLangToggle();
+    initPhotoSlider();
     loadVisitorStats();
+    loadVisitorLocation();
   }
 
   if (document.readyState === "loading") {

@@ -18,6 +18,8 @@
   var radius = 100;
   var dots = [];
   var locations = [];
+  var visitorPoints = [];
+  var pulsePhase = 0;
 
   // Approximate lat/lon for visitor markers
   var locationData = [
@@ -132,10 +134,39 @@
       ctx.fillStyle = "rgba(95, 208, 190, " + alpha + ")";
       ctx.fill();
     }
+
+    // Draw visitor points (pulsing)
+    var pulse = 0.5 + 0.5 * Math.sin(pulsePhase);
+    for (i = 0; i < visitorPoints.length; i++) {
+      p = rotateY(visitorPoints[i], rotation);
+      proj = project(p);
+      if (!proj.visible) continue;
+
+      alpha = 0.6 + (p.z + 1) * 0.2;
+
+      // Outer pulse ring
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, 6 + pulse * 4, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(95, 208, 190, " + alpha * 0.15 * (1 - pulse) + ")";
+      ctx.fill();
+
+      // Glow
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(95, 208, 190, " + alpha * 0.3 + ")";
+      ctx.fill();
+
+      // Dot
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(95, 208, 190, " + alpha + ")";
+      ctx.fill();
+    }
   }
 
   function animate() {
     rotation += 0.0015;
+    pulsePhase += 0.04;
     draw();
     requestAnimationFrame(animate);
   }
@@ -166,4 +197,14 @@
   } else {
     init();
   }
+
+  window.addVisitorPoint = function (lat, lon) {
+    var latRad = (lat * Math.PI) / 180;
+    var lonRad = (lon * Math.PI) / 180;
+    visitorPoints.push({
+      x: Math.cos(latRad) * Math.cos(lonRad),
+      y: Math.sin(latRad),
+      z: Math.cos(latRad) * Math.sin(lonRad),
+    });
+  };
 })();

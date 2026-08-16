@@ -73,8 +73,23 @@
         <p class="hero-company-link" id="hero-company-link"></p>
       </div>
       <div class="hero-visual reveal">
-        <div class="hero-photo-wrapper">
-          <img class="hero-photo" id="hero-photo" alt="Yingda Yu" loading="eager">
+        <div class="photo-slider" id="photo-slider">
+          <div class="photo-slider-img photo-slider-after">
+            <img id="hero-photo-stylized" alt="Yingda Yu — AI Stylized" loading="eager">
+          </div>
+          <div class="photo-slider-img photo-slider-before" id="photo-slider-before">
+            <img id="hero-photo-real" alt="Yingda Yu" loading="eager">
+          </div>
+          <div class="photo-slider-handle" id="photo-slider-handle">
+            <div class="photo-slider-line"></div>
+            <div class="photo-slider-knob">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/><polyline points="9 6 15 12 9 18"/></svg>
+            </div>
+          </div>
+          <div class="photo-slider-labels">
+            <span class="photo-slider-label-before" id="photo-label-real">Real</span>
+            <span class="photo-slider-label-after" id="photo-label-ai">AI</span>
+          </div>
         </div>
       </div>
     </div>
@@ -90,20 +105,11 @@
     </div>
   </section>
 
-  <!-- ==================== Selected Work ==================== -->
-  <section class="section" id="work">
+  <!-- ==================== Publications ==================== -->
+  <section class="section" id="publications">
     <div class="container">
-      <div class="section-label reveal" id="label-work"></div>
-      <h2 class="section-heading reveal" id="heading-work"></h2>
-      <div class="work-list reveal-stagger" id="work-list"></div>
-    </div>
-  </section>
-
-  <!-- ==================== Selected Research ==================== -->
-  <section class="section" id="research">
-    <div class="container">
-      <div class="section-label reveal" id="label-research"></div>
-      <h2 class="section-heading reveal" id="heading-research"></h2>
+      <div class="section-label reveal" id="label-publications"></div>
+      <h2 class="section-heading reveal" id="heading-publications"></h2>
       <div class="research-list reveal-stagger" id="research-list"></div>
       <div class="research-expand reveal">
         <button class="research-expand-btn" id="research-expand-btn"></button>
@@ -114,16 +120,25 @@
     </div>
   </section>
 
-  <!-- ==================== Building Spartina ==================== -->
-  <section class="section venture" id="venture">
+  <!-- ==================== My Work (merged: Projects + Venture) ==================== -->
+  <section class="section" id="work">
     <div class="container">
-      <div class="section-label reveal" id="label-venture"></div>
-      <h2 class="section-heading reveal" id="heading-venture"></h2>
-      <div class="venture-grid">
-        <div class="venture-narrative reveal" id="venture-narrative"></div>
-        <div class="venture-areas reveal" id="venture-areas"></div>
+      <div class="section-label reveal" id="label-work"></div>
+      <h2 class="section-heading reveal" id="heading-work"></h2>
+
+      <!-- Projects -->
+      <div class="work-subsection reveal">
+        <h3 class="work-subsection-label" id="work-projects-label"></h3>
+        <div class="work-list reveal-stagger" id="work-list"></div>
       </div>
-      <div class="reveal" id="venture-link-container" style="margin-top: 32px;"></div>
+
+      <!-- Venture -->
+      <div class="work-subsection reveal" style="margin-top: 48px;">
+        <h3 class="work-subsection-label" id="work-venture-label"></h3>
+        <div class="venture-narrative" id="venture-narrative" style="margin-bottom: 24px;"></div>
+        <div class="venture-areas" id="venture-areas"></div>
+        <div id="venture-link-container" style="margin-top: 32px;"></div>
+      </div>
     </div>
   </section>
 
