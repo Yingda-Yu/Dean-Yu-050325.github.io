@@ -206,7 +206,7 @@ var I18N = {
       },
     ],
 
-    visitorPlaceholder: "Visitor analytics coming online.",
+    visitorPlaceholder: "Loading\u2026",
     visitorLabels: { visitors: "Visitors", countries: "Countries", topLocations: "Top Locations" },
 
     footer: "Designed & built by Yingda Yu.",
@@ -410,7 +410,7 @@ var I18N = {
       },
     ],
 
-    visitorPlaceholder: "\u8bbf\u5ba2\u5206\u6790\u5373\u5c06\u4e0a\u7ebf\u3002",
+    visitorPlaceholder: "\u52a0\u8f7d\u4e2d\u2026",
     visitorLabels: { visitors: "\u8bbf\u5ba2", countries: "\u56fd\u5bb6", topLocations: "\u4e3b\u8981\u6765\u6e90" },
 
     footer: "\u7531\u4fde\u9896\u8fbe\u8bbe\u8ba1\u4e0e\u6784\u5efa\u3002",

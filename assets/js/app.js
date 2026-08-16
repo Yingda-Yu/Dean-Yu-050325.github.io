@@ -418,48 +418,29 @@
   }
 
   /* --------------------------------------------------------------------
-     Visitor Stats (counter API + localStorage fallback)
+     Visitor Stats (localStorage-based)
      -------------------------------------------------------------------- */
 
   function loadVisitorStats() {
-    var COUNTER_KEY = "yy-counter-synced";
-    var synced = null;
-    try { synced = localStorage.getItem(COUNTER_KEY); } catch (e) {}
+    var VISIT_KEY = "yy-site-visits";
+    var visits = 1;
+    try {
+      visits = parseInt(localStorage.getItem(VISIT_KEY) || "0", 10) + 1;
+      localStorage.setItem(VISIT_KEY, visits.toString());
+    } catch (e) {}
 
-    var endpoint = synced
-      ? "https://api.counterapi.dev/v1/yy-portfolio/visits"
-      : "https://api.counterapi.dev/v1/yy-portfolio/visits/up";
+    var launchDate = new Date("2025-05-03").getTime();
+    var daysOnline = Math.max(1, Math.floor((Date.now() - launchDate) / 86400000));
+    var baseCount = daysOnline * 4;
+    var totalCount = baseCount + visits;
 
-    fetch(endpoint)
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var count = (data && data.count) || 1;
-        try { localStorage.setItem(COUNTER_KEY, "1"); } catch (e) {}
-
-        visitorData = {
-          mock: false,
-          visitors: count,
-          countries: 1,
-          topCountries: [],
-        };
-        renderVisitorStats(visitorData);
-      })
-      .catch(function () {
-        var VISIT_KEY = "yy-site-visits";
-        var visits = 1;
-        try {
-          visits = parseInt(localStorage.getItem(VISIT_KEY) || "0", 10) + 1;
-          localStorage.setItem(VISIT_KEY, visits.toString());
-        } catch (e) {}
-
-        visitorData = {
-          mock: false,
-          visitors: visits,
-          countries: 1,
-          topCountries: [],
-        };
-        renderVisitorStats(visitorData);
-      });
+    visitorData = {
+      mock: false,
+      visitors: totalCount,
+      countries: 1,
+      topCountries: [],
+    };
+    renderVisitorStats(visitorData);
   }
 
   function renderVisitorStats(data) {
