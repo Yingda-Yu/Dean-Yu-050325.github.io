@@ -499,7 +499,7 @@ var I18N = {
      ================================================================ */
 var SHARED = {
   company: {
-    url: null,
+    url: "https://www.spartina.tech/",
     photo: "./assets/images/profile-original.jpg",
   },
   socialOrder: ["scholar", "github", "orcid", "dblp", "linkedin"],
