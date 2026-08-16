@@ -418,18 +418,48 @@
   }
 
   /* --------------------------------------------------------------------
-     Visitor Stats (from JSON)
+     Visitor Stats (counter API + localStorage fallback)
      -------------------------------------------------------------------- */
 
   function loadVisitorStats() {
-    fetch("./assets/data/visitor-stats.json")
+    var COUNTER_KEY = "yy-counter-synced";
+    var synced = null;
+    try { synced = localStorage.getItem(COUNTER_KEY); } catch (e) {}
+
+    var endpoint = synced
+      ? "https://api.counterapi.dev/v1/yy-portfolio/visits"
+      : "https://api.counterapi.dev/v1/yy-portfolio/visits/up";
+
+    fetch(endpoint)
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        if (!data || data.mock) return;
-        visitorData = data;
-        renderVisitorStats(data);
+        var count = (data && data.count) || 1;
+        try { localStorage.setItem(COUNTER_KEY, "1"); } catch (e) {}
+
+        visitorData = {
+          mock: false,
+          visitors: count,
+          countries: 1,
+          topCountries: [],
+        };
+        renderVisitorStats(visitorData);
       })
-      .catch(function () { });
+      .catch(function () {
+        var VISIT_KEY = "yy-site-visits";
+        var visits = 1;
+        try {
+          visits = parseInt(localStorage.getItem(VISIT_KEY) || "0", 10) + 1;
+          localStorage.setItem(VISIT_KEY, visits.toString());
+        } catch (e) {}
+
+        visitorData = {
+          mock: false,
+          visitors: visits,
+          countries: 1,
+          topCountries: [],
+        };
+        renderVisitorStats(visitorData);
+      });
   }
 
   function renderVisitorStats(data) {
@@ -441,6 +471,18 @@
     numbers.appendChild(buildStat(data.visitors || 0, d.visitorLabels.visitors));
     numbers.appendChild(buildStat(data.countries || 0, d.visitorLabels.countries));
     statsContainer.appendChild(numbers);
+
+    if (visitorLocation) {
+      var locDiv = el("div", "visitor-location");
+      var youText = currentLang === "zh"
+        ? "\u4f60\u6b63\u4ece"
+        : "You're visiting from";
+      locDiv.innerHTML =
+        '<div class="visitor-location-text">' +
+        youText + " <strong>" + (visitorLocation.city || "") + ", " + (visitorLocation.country || "") + "</strong>" +
+        "</div>";
+      statsContainer.appendChild(locDiv);
+    }
 
     if (data.topCountries && data.topCountries.length) {
       var countriesDiv = el("div", "visitor-countries");
@@ -489,7 +531,9 @@
           if (window.addVisitorPoint && typeof window.addVisitorPoint === "function") {
             window.addVisitorPoint(visitorLocation.latitude, visitorLocation.longitude);
           }
-          if (!visitorData || visitorData.mock) {
+          if (visitorData && !visitorData.mock) {
+            renderVisitorStats(visitorData);
+          } else {
             renderVisitorLocation();
           }
         }
