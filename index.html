@@ -1,423 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta
-        name="description"
-        content="Academic homepage of Yingda Yu, an undergraduate student at Wenzhou-Kean University."
-    >
-    <title>Yingda Yu | Academic Homepage</title>
-    <style>
-        :root {
-            --background: #f5f7fa;
-            --surface: #ffffff;
-            --text: #172033;
-            --muted: #5b6578;
-            --accent: #1f4f78;
-            --accent-soft: #eaf1f7;
-            --border: #dce3ea;
-            --max-width: 960px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-        }
+  <!-- SEO -->
+  <title>Yingda Yu — Founder · AI Builder · Researcher</title>
+  <meta name="description" content="Founder of Spartina Technology, AI builder and researcher working across computer vision, scientific AI, multimodal systems, and applied intelligent products.">
+  <meta name="author" content="Yingda Yu">
 
-        html {
-            scroll-behavior: smooth;
-        }
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Yingda Yu — Founder · AI Builder · Researcher">
+  <meta property="og:description" content="Building intelligent systems across research, products, and the real world.">
+  <meta property="og:url" content="https://yingda-yu.github.io/Dean-Yu-050325.github.io/">
 
-        body {
-            margin: 0;
-            color: var(--text);
-            background: var(--background);
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            font-size: 16px;
-            line-height: 1.65;
-        }
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Yingda Yu — Founder · AI Builder · Researcher">
+  <meta name="twitter:description" content="Building intelligent systems across research, products, and the real world.">
 
-        a {
-            color: var(--accent);
-            text-underline-offset: 3px;
-        }
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23081020'/><text x='50' y='68' font-family='monospace' font-size='52' font-weight='bold' text-anchor='middle' fill='%235FD0BE'>Y</text></svg>">
 
-        a:hover {
-            text-decoration-thickness: 2px;
-        }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-        .site-header {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .header-inner,
-        main,
-        .site-footer {
-            width: min(calc(100% - 40px), var(--max-width));
-            margin: 0 auto;
-        }
-
-        .header-inner {
-            padding: 48px 0 28px;
-        }
-
-        h1,
-        h2,
-        h3,
-        p {
-            margin-top: 0;
-        }
-
-        h1 {
-            margin-bottom: 4px;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(2.35rem, 7vw, 4rem);
-            font-weight: 600;
-            letter-spacing: -0.035em;
-            line-height: 1.1;
-        }
-
-        .affiliation {
-            margin-bottom: 8px;
-            color: var(--muted);
-            font-size: 1.08rem;
-        }
-
-        .contact {
-            margin-bottom: 0;
-        }
-
-        nav {
-            margin-top: 28px;
-        }
-
-        nav ul {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 18px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        nav a {
-            color: var(--muted);
-            font-size: 0.92rem;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        main {
-            padding: 34px 0 56px;
-        }
-
-        section {
-            padding: 28px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        section:first-child {
-            padding-top: 0;
-        }
-
-        section:last-child {
-            border-bottom: 0;
-        }
-
-        h2 {
-            margin-bottom: 18px;
-            color: var(--accent);
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 1.65rem;
-            font-weight: 600;
-        }
-
-        h3 {
-            margin-bottom: 5px;
-            font-size: 1.03rem;
-        }
-
-        .lead {
-            max-width: 790px;
-            color: #2c374b;
-            font-size: 1.06rem;
-        }
-
-        .interest-list,
-        .project-list,
-        .activity-list,
-        .award-list {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 8px 28px;
-            margin: 0;
-            padding-left: 1.2rem;
-        }
-
-        .entry + .entry {
-            margin-top: 22px;
-        }
-
-        .entry p {
-            margin-bottom: 3px;
-        }
-
-        .meta {
-            color: var(--muted);
-            font-size: 0.94rem;
-        }
-
-        .entry ul,
-        .publication-list {
-            margin: 9px 0 0;
-            padding-left: 1.2rem;
-        }
-
-        .publication-group + .publication-group {
-            margin-top: 24px;
-        }
-
-        .publication-group h3 {
-            display: inline-block;
-            margin-bottom: 10px;
-            padding: 3px 9px;
-            color: var(--accent);
-            background: var(--accent-soft);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            letter-spacing: 0.035em;
-            text-transform: uppercase;
-        }
-
-        .publication-list li + li,
-        .project-list li + li,
-        .activity-list li + li,
-        .award-list li + li {
-            margin-top: 7px;
-        }
-
-        .skills {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
-        }
-
-        .skill {
-            padding: 15px 17px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-        }
-
-        .skill strong {
-            display: block;
-            margin-bottom: 2px;
-            color: var(--accent);
-        }
-
-        .site-footer {
-            padding: 22px 0 36px;
-            color: var(--muted);
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        @media (max-width: 680px) {
-            .header-inner {
-                padding-top: 36px;
-            }
-
-            .interest-list,
-            .project-list,
-            .activity-list,
-            .award-list,
-            .skills {
-                grid-template-columns: 1fr;
-            }
-
-            section {
-                padding: 24px 0;
-            }
-        }
-    </style>
+  <!-- Styles -->
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-    <header class="site-header">
-        <div class="header-inner">
-            <h1>Yingda Yu</h1>
-            <p class="affiliation">Wenzhou-Kean University</p>
-            <p class="contact">
-                <a href="mailto:yuying@kean.edu">yuying@kean.edu</a>
-                &nbsp;·&nbsp;
-                <a href="https://github.com/Yingda-Yu">GitHub</a>
-            </p>
 
-            <nav aria-label="Page sections">
-                <ul>
-                    <li><a href="#research-interests">Research Interests</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#research-training">Research Training</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#publications">Publications</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#activities">Activities</a></li>
-                    <li><a href="#honors">Honors</a></li>
-                </ul>
-            </nav>
+  <!-- ==================== Navigation ==================== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Yingda</a>
+      <div class="nav-links" id="nav-links"></div>
+      <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu"></div>
+
+  <!-- Sticky Side Elements (desktop only) -->
+  <aside class="side-social" id="side-social"></aside>
+  <aside class="side-email" id="side-email"></aside>
+
+  <!-- ==================== Hero ==================== -->
+  <section class="hero" id="hero">
+    <canvas class="hero-canvas" id="hero-canvas"></canvas>
+    <div class="hero-inner">
+      <div class="hero-content reveal">
+        <p class="hero-greeting">Hi, I'm</p>
+        <h1 class="hero-name" id="hero-name"></h1>
+        <h2 class="hero-tagline" id="hero-tagline"></h2>
+        <p class="hero-description" id="hero-description"></p>
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-primary">
+            Explore my work <span class="arrow">&rarr;</span>
+          </a>
+          <a href="#about" class="btn btn-secondary">
+            About me
+          </a>
         </div>
-    </header>
+        <p class="hero-company-link" id="hero-company-link"></p>
+      </div>
+      <div class="hero-visual"></div>
+    </div>
+  </section>
 
-    <main>
-        <section id="about">
-            <h2>About</h2>
-            <p class="lead">
-                I am an undergraduate student in Mathematics (Data Science Track) at
-                Wenzhou-Kean University, with a minor in Computer Science. My work focuses
-                on generative and visual intelligence, multimodal reasoning, and remote sensing.
-            </p>
-        </section>
+  <!-- ==================== About ==================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label reveal">01 / About</div>
+      <h2 class="section-heading reveal">About</h2>
+      <div class="about-text reveal" id="about-text"></div>
+      <div class="working-with reveal" id="working-with"></div>
+    </div>
+  </section>
 
-        <section id="research-interests">
-            <h2>Research Interests</h2>
-            <ul class="interest-list">
-                <li>Generative AI</li>
-                <li>Computer Vision</li>
-                <li>Multimodal Large Language Models</li>
-                <li>Video Generation</li>
-                <li>Image Restoration and Editing</li>
-                <li>Remote Sensing</li>
-            </ul>
-        </section>
+  <!-- ==================== Selected Work ==================== -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section-label reveal">02 / Work</div>
+      <h2 class="section-heading reveal">Selected Work</h2>
+      <div class="work-list reveal-stagger" id="work-list"></div>
+    </div>
+  </section>
 
-        <section id="education">
-            <h2>Education</h2>
-            <div class="entry">
-                <h3>Wenzhou-Kean University</h3>
-                <p>B.S. in Mathematics (Data Science Track)</p>
-                <p>Minor in Computer Science</p>
-                <p class="meta">September 2023 – Present</p>
-            </div>
-        </section>
+  <!-- ==================== Selected Research ==================== -->
+  <section class="section" id="research">
+    <div class="container">
+      <div class="section-label reveal">03 / Research</div>
+      <h2 class="section-heading reveal">Selected Research</h2>
+      <div class="research-list reveal-stagger" id="research-list"></div>
+      <div class="research-expand reveal">
+        <button class="research-expand-btn" id="research-expand-btn">
+          View all research &darr;
+        </button>
+      </div>
+      <div class="research-additional" id="research-additional">
+        <div class="research-list" id="research-additional-list" style="margin-top: 24px;"></div>
+      </div>
+    </div>
+  </section>
 
-        <section id="research-training">
-            <h2>Research Training</h2>
-            <div class="entry">
-                <h3>Undergraduate Visiting Student</h3>
-                <p>The Chinese University of Hong Kong, Shenzhen</p>
-                <p>AISE Summer Camp · Supervisor: Prof. Simon Pun</p>
-                <p class="meta">June 2025 – August 2025</p>
-            </div>
+  <!-- ==================== Building Spartina ==================== -->
+  <section class="section venture" id="venture">
+    <div class="container">
+      <div class="section-label reveal">04 / Venture</div>
+      <h2 class="section-heading reveal">Building Spartina</h2>
+      <div class="venture-grid">
+        <div class="venture-narrative reveal" id="venture-narrative"></div>
+        <div class="venture-areas reveal" id="venture-areas"></div>
+      </div>
+      <div class="reveal" id="venture-link-container" style="margin-top: 32px;"></div>
+    </div>
+  </section>
 
-            <div class="entry">
-                <h3>Research Assistant</h3>
-                <p>Wenzhou-Kean University · Supervisor: Prof. Shuyang Xu</p>
-                <p class="meta">September 2024 – December 2025</p>
-                <ul>
-                    <li>Spartina alterniflora Monitoring System</li>
-                    <li>Remote Sensing and Earth Observation</li>
-                </ul>
-            </div>
-        </section>
+  <!-- ==================== Journey ==================== -->
+  <section class="section" id="journey">
+    <div class="container">
+      <div class="section-label reveal">05 / Journey</div>
+      <h2 class="section-heading reveal">Journey</h2>
+      <div class="timeline reveal-stagger" id="timeline"></div>
+    </div>
+  </section>
 
-        <section id="projects">
-            <h2>Research Projects</h2>
-            <ul class="project-list">
-                <li>Long-Chain Visual Reasoning with Multimodal Large Language Models</li>
-                <li>Chain-of-Thought Image Editing via Video Trajectories</li>
-                <li>Test-Time Adaptation under Dynamic Severity Shift</li>
-                <li>Dengue Fever Early Warning System</li>
-            </ul>
-        </section>
+  <!-- ==================== Around the World ==================== -->
+  <section class="section visitors" id="visitors">
+    <div class="container">
+      <div class="section-label reveal">06 / World</div>
+      <h2 class="section-heading reveal">Around the World</h2>
+      <div class="visitors-grid reveal">
+        <div class="globe-container">
+          <canvas id="globe-canvas"></canvas>
+        </div>
+        <div class="visitor-stats" id="visitor-stats">
+          <div class="visitor-placeholder">Visitor analytics coming online.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <section id="publications">
-            <h2>Publications</h2>
+  <!-- ==================== Contact ==================== -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="reveal">
+        <h2 class="contact-heading">Let's build something meaningful.</h2>
+        <p class="contact-sub">Research, products, AI systems, or collaborations.</p>
+        <a href="#" class="contact-email" id="contact-email">
+          Say hello
+        </a>
+        <div class="contact-socials" id="contact-socials"></div>
+      </div>
+    </div>
+  </section>
 
-            <div class="publication-group">
-                <h3>Accepted</h3>
-                <ul class="publication-list">
-                    <li>
-                        <strong>Learnable Trusted Sparse Attention (LTSA) for UHD Image Restoration.</strong>
-                        CVIDL.
-                    </li>
-                    <li>
-                        <strong>Semantic-Conditioned Diffusion for Task-Driven Underwater Image Enhancement.</strong>
-                        CVIPPR.
-                    </li>
-                    <li>
-                        <strong>Exploring Fractal Generative Models with Different Alternative Atomic Modules.</strong>
-                    </li>
-                </ul>
-            </div>
+  <!-- ==================== Footer ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">Designed &amp; built by Yingda Yu.</p>
+    </div>
+  </footer>
 
-            <div class="publication-group">
-                <h3>Under Review</h3>
-                <ul class="publication-list">
-                    <li>
-                        <strong>Think Before You Edit: Chain-of-Thought Image Editing via Video Trajectories.</strong>
-                        PRCV 2026.
-                    </li>
-                    <li>
-                        <strong>Exploring Long-Chain Visual Reasoning with Multimodal Large Language Models.</strong>
-                        PRCV 2026.
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="skills">
-            <h2>Technical Skills</h2>
-            <div class="skills">
-                <div class="skill">
-                    <strong>Programming</strong>
-                    Python, C++, Java
-                </div>
-                <div class="skill">
-                    <strong>Machine Learning</strong>
-                    PyTorch, TensorFlow, CUDA
-                </div>
-                <div class="skill">
-                    <strong>Computer Vision</strong>
-                    OpenCV, Diffusion Models, Vision-Language Models
-                </div>
-                <div class="skill">
-                    <strong>Remote Sensing</strong>
-                    Google Earth Engine, ArcGIS Pro
-                </div>
-                <div class="skill">
-                    <strong>Systems</strong>
-                    Linux, Git, Multi-GPU Training
-                </div>
-            </div>
-        </section>
-
-        <section id="activities">
-            <h2>Academic Activities</h2>
-            <ul class="activity-list">
-                <li>Fudan University (2024)</li>
-                <li>Shanghai Jiao Tong University (2025)</li>
-                <li>Research Day, Wenzhou-Kean University (2025)</li>
-                <li>AISE Summer Camp, CUHK-Shenzhen (2025)</li>
-                <li>Central South University</li>
-            </ul>
-        </section>
-
-        <section id="honors">
-            <h2>Honors &amp; Awards</h2>
-            <ul class="award-list">
-                <li>First Prize, Nestlé ESG Business Competition (2024)</li>
-                <li>Best Organization Award, Bank of China Internship (2024)</li>
-                <li>Cougar Pioneers Prize, Wenzhou-Kean University (2024)</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <a href="https://github.com/Yingda-Yu">github.com/Yingda-Yu</a>
-    </footer>
+  <!-- Scripts -->
+  <script src="./assets/js/data.js"></script>
+  <script src="./assets/js/particles.js"></script>
+  <script src="./assets/js/globe.js"></script>
+  <script src="./assets/js/app.js"></script>
 </body>
 </html>

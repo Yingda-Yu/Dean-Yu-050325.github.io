@@ -1,0 +1,19 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+
+# Dependencies
+node_modules/
+
+# Build
+_site/
+.jekyll-cache/
+
+# Env
+.env
+.env.local

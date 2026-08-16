@@ -1,0 +1,1336 @@
+/* ==========================================================================
+   Yingda Yu V2 — Personal Website
+   Design System & Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Background — Deep Navy / Midnight */
+  --bg: #081020;
+  --bg-surface: #0D1A2E;
+  --bg-elevated: #13243C;
+  --bg-hover: rgba(255, 255, 255, 0.025);
+  --bg-venture: rgba(255, 255, 255, 0.018);
+
+  /* Text */
+  --text: #E6EDF3;
+  --text-secondary: #8B9BB0;
+  --text-tertiary: #5A6A80;
+
+  /* Accent — Spartina Teal */
+  --accent: #5FD0BE;
+  --accent-dim: rgba(95, 208, 190, 0.12);
+  --accent-glow: rgba(95, 208, 190, 0.06);
+
+  /* Borders */
+  --border: rgba(136, 146, 176, 0.12);
+  --border-strong: rgba(136, 146, 176, 0.2);
+
+  /* Typography */
+  --font-body: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Layout */
+  --max-width: 1100px;
+  --nav-height: 72px;
+  --side-padding: 24px;
+
+  /* Transitions */
+  --t-fast: 200ms ease;
+  --t-base: 300ms ease;
+  --t-slow: 600ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Spacing scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Base
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 20px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+
+a:hover {
+  color: var(--text);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+canvas {
+  display: block;
+}
+
+::selection {
+  background: var(--accent-dim);
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   3. Typography
+   -------------------------------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  max-width: 70ch;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------
+   4. Layout Helpers
+   -------------------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--side-padding);
+}
+
+.section {
+  padding: var(--space-2xl) 0;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.section-label::after {
+  content: "";
+  flex: 1;
+  max-width: 300px;
+  height: 1px;
+  background: var(--border);
+}
+
+.section-heading {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: var(--space-lg);
+}
+
+/* --------------------------------------------------------------------------
+   5. Navigation
+   -------------------------------------------------------------------------- */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  background: rgba(8, 16, 32, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-base), border-color var(--t-base);
+}
+
+.nav.scrolled {
+  background: rgba(8, 16, 32, 0.92);
+  border-bottom-color: var(--border-strong);
+}
+
+.nav-inner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--side-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  transition: color var(--t-fast);
+}
+
+.nav-logo:hover {
+  color: var(--text);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a {
+  padding: 8px 14px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--accent);
+}
+
+.nav-mobile-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: 6px;
+}
+
+.nav-mobile-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: transform var(--t-base), opacity var(--t-base);
+}
+
+.nav-mobile-toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-mobile-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-mobile-toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   6. Sticky Side Elements
+   -------------------------------------------------------------------------- */
+
+.side-social {
+  position: fixed;
+  left: 40px;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.side-social::after {
+  content: "";
+  width: 1px;
+  height: 60px;
+  background: var(--border-strong);
+}
+
+.side-social a {
+  color: var(--text-secondary);
+  transition: color var(--t-fast), transform var(--t-fast);
+}
+
+.side-social a:hover {
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.side-social svg {
+  width: 18px;
+  height: 18px;
+}
+
+.side-email {
+  position: fixed;
+  right: 40px;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.side-email a {
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  transition: color var(--t-fast), transform var(--t-fast);
+}
+
+.side-email a:hover {
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.side-email::after {
+  content: "";
+  width: 1px;
+  height: 60px;
+  background: var(--border-strong);
+}
+
+/* --------------------------------------------------------------------------
+   7. Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: var(--nav-height);
+}
+
+.hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--side-padding);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.hero-greeting {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-name {
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: var(--space-sm);
+}
+
+.hero-name .period {
+  color: var(--accent);
+}
+
+.hero-tagline {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  max-width: 580px;
+  margin-bottom: var(--space-md);
+}
+
+.hero-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
+}
+
+.hero-cta {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.hero-company-link {
+  margin-top: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+}
+
+.hero-company-link a {
+  color: var(--text-secondary);
+  transition: color var(--t-fast);
+}
+
+.hero-company-link a:hover {
+  color: var(--accent);
+}
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  border-radius: 6px;
+  transition: all var(--t-base);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--text);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(95, 208, 190, 0.15);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-secondary:hover {
+  background: var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.btn .arrow {
+  transition: transform var(--t-fast);
+}
+
+.btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   8. About
+   -------------------------------------------------------------------------- */
+
+.about-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  max-width: 680px;
+}
+
+.about-text p + p {
+  margin-top: var(--space-sm);
+}
+
+.about-text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.working-with {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.working-with .label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.working-with .tag {
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all var(--t-fast);
+}
+
+.working-with .tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   9. Selected Work
+   -------------------------------------------------------------------------- */
+
+.work-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.work-item {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: var(--space-md);
+  align-items: start;
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--border);
+  transition: background var(--t-base);
+  cursor: default;
+  position: relative;
+}
+
+.work-item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.work-item:hover {
+  background: var(--bg-hover);
+}
+
+.work-number {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  padding-top: 4px;
+}
+
+.work-body h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  transition: color var(--t-fast);
+}
+
+.work-item:hover .work-body h3 {
+  color: var(--accent);
+}
+
+.work-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  max-width: 560px;
+}
+
+.work-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.03em;
+}
+
+.work-arrow {
+  align-self: center;
+  color: var(--text-tertiary);
+  font-size: 1.2rem;
+  transition: transform var(--t-fast), color var(--t-fast);
+}
+
+.work-item:hover .work-arrow {
+  transform: translateX(6px);
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   10. Selected Research
+   -------------------------------------------------------------------------- */
+
+.research-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.research-item {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: var(--space-md);
+  align-items: start;
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--border);
+  transition: background var(--t-base);
+  position: relative;
+}
+
+.research-item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.research-item:hover {
+  background: var(--bg-hover);
+}
+
+.research-year {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  padding-top: 4px;
+}
+
+.research-body h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+  line-height: 1.4;
+  transition: color var(--t-fast);
+}
+
+.research-item:hover .research-body h3 {
+  color: var(--accent);
+}
+
+.research-venue {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.research-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.research-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.research-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.status-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+.status-accepted,
+.status-published {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.status-preprint {
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+.status-under-review {
+  color: var(--text-tertiary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+.role-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.research-contribution {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  max-width: 560px;
+}
+
+.research-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.research-links a {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--t-fast);
+}
+
+.research-links a:hover {
+  color: var(--text);
+}
+
+.research-expand {
+  margin-top: var(--space-lg);
+  text-align: center;
+}
+
+.research-expand-btn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  padding: 10px 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  transition: all var(--t-base);
+}
+
+.research-expand-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.research-additional {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--t-slow);
+}
+
+.research-additional.open {
+  max-height: 2000px;
+}
+
+/* --------------------------------------------------------------------------
+   11. Building Spartina (Venture)
+   -------------------------------------------------------------------------- */
+
+.venture {
+  background: var(--bg-venture);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.venture-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.venture-narrative {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.venture-narrative .company-name {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.venture-areas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.venture-area {
+  padding: var(--space-md);
+  background: var(--bg-surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all var(--t-base);
+}
+
+.venture-area:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.venture-area h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.venture-area p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.venture-link {
+  margin-top: var(--space-lg);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--accent);
+  transition: color var(--t-fast);
+}
+
+.venture-link:hover {
+  color: var(--text);
+}
+
+.venture-link .arrow {
+  transition: transform var(--t-fast);
+}
+
+.venture-link:hover .arrow {
+  transform: translateX(4px);
+}
+
+.venture-link.disabled {
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   12. Journey Timeline
+   -------------------------------------------------------------------------- */
+
+.timeline {
+  position: relative;
+  padding-left: var(--space-lg);
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--border-strong);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--space-lg);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -37px;
+  top: 6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  transition: all var(--t-base);
+}
+
+.timeline-item:hover::before {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-dim);
+}
+
+.timeline-year {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.timeline-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.timeline-org {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.timeline-detail {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  max-width: 540px;
+}
+
+/* --------------------------------------------------------------------------
+   13. Around the World (Visitor Globe)
+   -------------------------------------------------------------------------- */
+
+.visitors {
+  position: relative;
+}
+
+.visitors-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.globe-container {
+  width: 240px;
+  height: 240px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.globe-container canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.visitor-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.visitor-numbers {
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.visitor-number {
+  display: flex;
+  flex-direction: column;
+}
+
+.visitor-number .value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+.visitor-number .label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+
+.visitor-countries {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.visitor-countries .label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.country-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.country-row .name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.country-row .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+.country-row .count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.visitor-placeholder {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  padding: var(--space-sm) 0;
+}
+
+/* --------------------------------------------------------------------------
+   14. Contact
+   -------------------------------------------------------------------------- */
+
+.contact {
+  text-align: center;
+  padding: var(--space-2xl) 0;
+}
+
+.contact-heading {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin-bottom: var(--space-sm);
+}
+
+.contact-sub {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: var(--space-lg);
+}
+
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  transition: all var(--t-base);
+  margin-bottom: var(--space-xl);
+}
+
+.contact-email:hover {
+  background: var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+.contact-socials {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.contact-socials a {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--t-fast);
+}
+
+.contact-socials a:hover {
+  color: var(--accent);
+}
+
+.contact-socials svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   15. Footer
+   -------------------------------------------------------------------------- */
+
+.footer {
+  padding: var(--space-lg) 0;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer-text {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   16. Section Reveal Animation
+   -------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--t-slow), transform var(--t-slow);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--t-slow), transform var(--t-slow);
+}
+
+.reveal-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 60ms; }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 120ms; }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 180ms; }
+.reveal-stagger.visible > *:nth-child(5) { transition-delay: 240ms; }
+.reveal-stagger.visible > *:nth-child(6) { transition-delay: 300ms; }
+
+/* --------------------------------------------------------------------------
+   17. Mobile Menu
+   -------------------------------------------------------------------------- */
+
+.mobile-menu {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xl) var(--side-padding);
+  gap: var(--space-sm);
+  transform: translateX(100%);
+  transition: transform 250ms ease;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu a {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--t-fast);
+}
+
+.mobile-menu a:hover,
+.mobile-menu a.active {
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   18. Responsive
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .hero-inner {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+
+@media (max-width: 1199px) {
+  .side-social,
+  .side-email {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --space-2xl: 64px;
+    --space-xl: 40px;
+    --side-padding: 20px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-mobile-toggle {
+    display: flex;
+  }
+
+  .hero {
+    min-height: 100vh;
+    padding-top: calc(var(--nav-height) + 20px);
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .work-item {
+    grid-template-columns: 40px 1fr;
+  }
+
+  .work-arrow {
+    display: none;
+  }
+
+  .research-item {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .research-status {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .venture-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .visitors-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .globe-container {
+    width: 200px;
+    height: 200px;
+  }
+
+  .visitor-numbers {
+    justify-content: center;
+  }
+
+  .visitor-countries {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.15rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    justify-content: center;
+  }
+
+  .visitor-numbers {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   19. Reduced Motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+  }
+}

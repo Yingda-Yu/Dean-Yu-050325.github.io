@@ -1,0 +1,7 @@
+{
+  "mock": true,
+  "_comment": "This is mock data. The frontend will display 'Visitor analytics coming online.' until real data replaces this file. See ANALYTICS_SETUP.md for instructions.",
+  "visitors": 0,
+  "countries": 0,
+  "topCountries": []
+}
