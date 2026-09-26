@@ -1,19 +1,17 @@
 /**
- * Main Application Logic — V2 Bilingual
+ * Main Application Logic — V3 Editorial
  * Renders content from I18N data, handles language switching,
- * photo slider, navigation, section reveals, and IP visitor tracking.
+ * navigation, section reveals, and publication rendering.
  */
 (function () {
   "use strict";
 
   var I18N = window.I18N;
   var SHARED = window.SHARED;
+  var PUBS = window.PUBS || { data: [], featuredIds: [] };
   if (!I18N || !SHARED) return;
 
   var currentLang = window.DEFAULT_LANG || "en";
-  var researchExpanded = false;
-  var visitorData = null;
-  var visitorLocation = null;
 
   /* --------------------------------------------------------------------
      SVG Icons
@@ -26,6 +24,7 @@
     orcid: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zM7.5 5.25a.75.75 0 110 1.5.75.75 0 010-1.5zM6.75 7.5h1.5v9h-1.5v-9zm3 0h4.5a4.5 4.5 0 010 9h-4.5v-9zm1.5 1.5v6h3a3 3 0 000-6h-3z"/></svg>',
     dblp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
     email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+    arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;vertical-align:-2px"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
   };
 
   /* --------------------------------------------------------------------
@@ -50,49 +49,43 @@
     return s.replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function statusClass(status) {
-    var s = (status || "").toLowerCase();
-    if (s === "accepted" || s === "in press" || s === "\u5df2\u63a5\u6536") return "status-accepted";
-    if (s === "published") return "status-published";
-    if (s === "preprint" || s === "\u9884\u5370\u672c") return "status-preprint";
-    if (s === "under review" || s === "\u5ba1\u7a3f\u4e2d") return "status-under-review";
-    return "status-preprint";
-  }
-
   function getLinkIcon(key) {
     return ICONS[key] || "";
   }
 
   /* --------------------------------------------------------------------
-     Render: Hero (with photo slider)
+     Render: Hero (editorial — photo left, copy right)
      -------------------------------------------------------------------- */
 
   function renderHero() {
     var d = D();
 
-    document.getElementById("hero-greeting").textContent = d.profile.greeting;
+    document.getElementById("hero-eyebrow").textContent = d.profile.eyebrow;
 
     var nameEl = document.getElementById("hero-name");
-    nameEl.innerHTML = d.profile.name + "<span class='period'>.</span>";
+    nameEl.innerHTML = d.profile.name;
 
-    document.getElementById("hero-tagline").textContent = d.profile.tagline;
+    document.getElementById("hero-statement").textContent = d.profile.statement;
     document.getElementById("hero-description").textContent = d.profile.description;
 
     var cta = document.getElementById("hero-cta");
     clear(cta);
-    cta.appendChild(el("a", "btn btn-primary",
-      d.heroCTA.primary + " <span class='arrow'>&#8594;</span>"));
-    cta.firstChild.href = "#publications";
-    cta.appendChild(el("a", "btn btn-secondary", d.heroCTA.secondary));
-    cta.lastChild.href = "#about";
+    var primary = el("a", "btn btn-primary",
+      d.heroCTA.primary + " " + ICONS.arrow);
+    primary.href = "#publications";
+    cta.appendChild(primary);
+
+    var secondary = el("a", "btn btn-secondary", d.heroCTA.secondary);
+    secondary.href = "#about";
+    cta.appendChild(secondary);
 
     var companyLink = document.getElementById("hero-company-link");
     if (SHARED.company.url) {
       companyLink.innerHTML =
-        d.company.heroText + " &#8594; <a href=\"" + escapeAttr(SHARED.company.url) +
-        "\" target=\"_blank\" rel=\"noopener\">" + d.company.name + " &#8599;</a>";
+        d.company.heroText + ' &mdash; <a href="' + escapeAttr(SHARED.company.url) +
+        '" target="_blank" rel="noopener">' + d.company.name + ' &#8599;</a>';
     } else {
-      companyLink.innerHTML = d.company.heroText + " &#8594; <span>" + d.company.name + "</span>";
+      companyLink.innerHTML = d.company.heroText + ' &mdash; <span>' + d.company.name + "</span>";
     }
 
     var photo = document.getElementById("hero-photo");
@@ -100,7 +93,229 @@
   }
 
   /* --------------------------------------------------------------------
-     Render: About
+     Render: Latest Updates
+     -------------------------------------------------------------------- */
+
+  function renderUpdates() {
+    var d = D();
+    document.getElementById("label-updates").textContent = d.sections.updates;
+    document.getElementById("heading-updates").textContent = d.headings.updates;
+
+    var list = document.getElementById("updates-list");
+    if (!list || !d.latestUpdates) return;
+    clear(list);
+
+    d.latestUpdates.forEach(function (item) {
+      var row = el("div", "update-item");
+      row.innerHTML =
+        '<div class="update-date">' + item.date + "</div>" +
+        '<div class="update-text">' + item.text + "</div>";
+      list.appendChild(row);
+    });
+  }
+
+  /* --------------------------------------------------------------------
+     Render: Publications (homepage selected)
+     -------------------------------------------------------------------- */
+
+  function highlightAuthor(authorStr) {
+    var selfNames = ["Yingda Yu", "Yu, Yingda"];
+    var result = authorStr;
+    selfNames.forEach(function (name) {
+      var re = new RegExp("(" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "g");
+      result = result.replace(re, '<span class="author-self">$1</span>');
+    });
+    return result;
+  }
+
+  function statusBadgeClass(status) {
+    return "status-badge status-" + (status || "preprint");
+  }
+
+  function renderPubRow(pub) {
+    var d = D();
+    var row = el("article", "pub-row");
+
+    var labels = d.statusLabels || {};
+    var presLabels = d.presentationLabels || {};
+    var statusLabel = labels[pub.status] || pub.status;
+    var presLabel = pub.presentation ? (presLabels[pub.presentation] || pub.presentation) : null;
+
+    var html = '<div class="pub-year">' + (pub.year || "") + "</div>";
+    html += '<div class="pub-body">';
+    html += '<h3 class="pub-title">' + pub.title + "</h3>";
+
+    if (pub.authors) {
+      html += '<p class="pub-authors">' + highlightAuthor(pub.authors) + "</p>";
+    }
+
+    var venueText = "";
+    if (pub.venue && pub.venue.short) venueText += pub.venue.short;
+    if (pub.year) venueText += (venueText ? " \u00b7 " : "") + pub.year;
+    if (pub.venue && pub.venue.location) venueText += " \u00b7 " + pub.venue.location;
+    if (venueText) {
+      html += '<p class="pub-venue">' + venueText + "</p>";
+    }
+
+    var badges = "";
+    badges += '<span class="' + statusBadgeClass(pub.status) + '">' + statusLabel + "</span>";
+    if (presLabel) {
+      badges += '<span class="pres-badge">' + presLabel + "</span>";
+    }
+    html += '<div class="pub-badges">' + badges + "</div>";
+
+    var links = [];
+    if (pub.links && pub.links.paper) {
+      links.push('<a href="' + escapeAttr(pub.links.paper) + '" target="_blank" rel="noopener">Paper &#8599;</a>');
+    }
+    if (pub.links && pub.links.arxiv) {
+      links.push('<a href="' + escapeAttr(pub.links.arxiv) + '" target="_blank" rel="noopener">arXiv &#8599;</a>');
+    }
+    if (pub.links && pub.links.doi) {
+      links.push('<a href="https://doi.org/' + escapeAttr(pub.links.doi) + '" target="_blank" rel="noopener">DOI &#8599;</a>');
+    }
+    if (pub.links && pub.links.code) {
+      links.push('<a href="' + escapeAttr(pub.links.code) + '" target="_blank" rel="noopener">Code &#8599;</a>');
+    }
+    if (links.length) {
+      html += '<div class="pub-links">' + links.join("") + "</div>";
+    }
+
+    html += "</div>";
+    row.innerHTML = html;
+    return row;
+  }
+
+  function renderPublicationsHome() {
+    var d = D();
+    var list = document.getElementById("pub-list");
+    if (!list) return;
+
+    document.getElementById("label-publications").textContent = d.sections.publications;
+    document.getElementById("heading-publications").textContent = d.headings.publications;
+
+    clear(list);
+
+    var pubs = [];
+    if (PUBS && PUBS.featuredIds && PUBS.data) {
+      PUBS.featuredIds.forEach(function (id) {
+        var p = PUBS.data.find(function (x) { return x.id === id; });
+        if (p) pubs.push(p);
+      });
+    }
+
+    if (pubs.length === 0) {
+      list.innerHTML = '<p style="color:var(--text-tertiary);font-style:italic;">Loading publications\u2026</p>';
+    } else {
+      pubs.forEach(function (pub) {
+        list.appendChild(renderPubRow(pub));
+      });
+    }
+
+    var viewAll = document.getElementById("pub-view-all");
+    if (viewAll) {
+      viewAll.textContent = d.viewAllPublications + " \u2192";
+    }
+  }
+
+  /* --------------------------------------------------------------------
+     Render: Research Interests
+     -------------------------------------------------------------------- */
+
+  function renderResearchInterests() {
+    var d = D();
+    document.getElementById("label-research").textContent = d.sections.research;
+    document.getElementById("heading-research").textContent = d.headings.research;
+
+    var grid = document.getElementById("research-interests");
+    if (!grid || !d.researchInterests) return;
+    clear(grid);
+
+    d.researchInterests.forEach(function (item, i) {
+      var num = String(i + 1).padStart(2, "0");
+      var div = el("div", "interest-item");
+      div.innerHTML =
+        '<div class="interest-number">' + num + "</div>" +
+        '<h3 class="interest-title">' + item.title + "</h3>" +
+        '<p class="interest-detail">' + item.detail + "</p>";
+      grid.appendChild(div);
+    });
+  }
+
+  /* --------------------------------------------------------------------
+     Render: Selected Builds
+     -------------------------------------------------------------------- */
+
+  function renderBuilds() {
+    var d = D();
+
+    document.getElementById("label-builds").textContent = d.sections.builds;
+    document.getElementById("heading-builds").textContent = d.headings.builds;
+    document.getElementById("builds-projects-label").textContent = d.workLabels.projects;
+    document.getElementById("builds-venture-label").textContent = d.workLabels.venture;
+
+    /* Projects */
+    var list = document.getElementById("builds-list");
+    if (list) {
+      clear(list);
+      d.builds.forEach(function (p, i) {
+        var num = String(i + 1).padStart(2, "0");
+        var item = el("div", "build-item");
+
+        if (p.url) {
+          item.style.cursor = "pointer";
+          item.addEventListener("click", function () {
+            window.open(p.url, "_blank");
+          });
+        }
+
+        var meta = [p.category, p.role, p.year].filter(Boolean).join(" \u00b7 ");
+
+        item.innerHTML =
+          '<div class="build-number">' + num + "</div>" +
+          '<div class="build-body">' +
+          '<h3 class="build-title">' + p.name + "</h3>" +
+          '<p class="build-problem"><strong>Problem.</strong> ' + p.problem + "</p>" +
+          '<p class="build-built"><strong>Built.</strong> ' + p.built + "</p>" +
+          '<p class="build-meta">' + meta + "</p>" +
+          "</div>";
+
+        list.appendChild(item);
+      });
+    }
+
+    /* Venture */
+    var narrative = document.getElementById("venture-narrative");
+    if (narrative) narrative.innerHTML = d.company.description;
+
+    var areas = document.getElementById("venture-areas");
+    if (areas) {
+      clear(areas);
+      d.company.areas.forEach(function (area) {
+        var div = el("div", "venture-area");
+        div.innerHTML =
+          "<h4>" + area.name + "</h4>" +
+          "<p>" + area.desc + "</p>";
+        areas.appendChild(div);
+      });
+    }
+
+    var linkContainer = document.getElementById("venture-link-container");
+    if (linkContainer) {
+      if (SHARED.company.url) {
+        linkContainer.innerHTML =
+          '<a class="venture-link" href="' + escapeAttr(SHARED.company.url) + '" target="_blank" rel="noopener">' +
+          d.company.visitLink + ' <span class="arrow">&#8594;</span></a>';
+      } else {
+        linkContainer.innerHTML =
+          '<span class="venture-link disabled">' +
+          d.company.linkComingSoon + "</span>";
+      }
+    }
+  }
+
+  /* --------------------------------------------------------------------
+     Render: About & Journey (combined)
      -------------------------------------------------------------------- */
 
   function renderAbout() {
@@ -110,211 +325,28 @@
     document.getElementById("heading-about").textContent = d.headings.about;
 
     var aboutText = document.getElementById("about-text");
-    clear(aboutText);
-    d.about.forEach(function (para) {
-      aboutText.appendChild(el("p", null, para));
-    });
-
-    var ww = document.getElementById("working-with");
-    clear(ww);
-    ww.appendChild(el("div", "label", d.workingWithLabel));
-    d.workingWith.forEach(function (skill) {
-      ww.appendChild(el("span", "tag", skill));
-    });
-  }
-
-  /* --------------------------------------------------------------------
-     Render: Publications (was Selected Research)
-     -------------------------------------------------------------------- */
-
-  function renderResearchItem(pub) {
-    var item = el("div", "research-item");
-
-    var html = '<div class="research-year">' + (pub.year || "") + "</div>";
-    html += '<div class="research-body">';
-    html += "<h3>" + pub.title + "</h3>";
-
-    if (pub.venue) {
-      html += '<p class="research-venue">' + pub.venue + "</p>";
-    }
-
-    if (pub.tags && pub.tags.length) {
-      html += '<div class="research-tags">';
-      pub.tags.forEach(function (t) {
-        html += '<span class="research-tag">' + t + "</span>";
+    if (aboutText) {
+      clear(aboutText);
+      d.about.forEach(function (para) {
+        aboutText.appendChild(el("p", null, para));
       });
-      html += "</div>";
     }
 
-    if (pub.contribution) {
-      html += '<p class="research-contribution">' + pub.contribution + "</p>";
-    }
-
-    var links = [];
-    if (pub.paper) {
-      links.push('<a href="' + escapeAttr(pub.paper) + '" target="_blank" rel="noopener">Paper &#8599;</a>');
-    }
-    if (pub.doi) {
-      links.push('<a href="https://doi.org/' + escapeAttr(pub.doi) + '" target="_blank" rel="noopener">DOI &#8599;</a>');
-    }
-    if (pub.code) {
-      links.push('<a href="' + escapeAttr(pub.code) + '" target="_blank" rel="noopener">Code &#8599;</a>');
-    }
-    if (pub.project) {
-      links.push('<a href="' + escapeAttr(pub.project) + '" target="_blank" rel="noopener">Project &#8599;</a>');
-    }
-    if (links.length) {
-      html += '<div class="research-links">' + links.join("") + "</div>";
-    }
-
-    html += "</div>";
-
-    var statusHtml = '<div class="research-status">';
-    if (pub.status) {
-      statusHtml += '<span class="status-badge ' + statusClass(pub.status) + '">' + pub.status + "</span>";
-    }
-    if (pub.role) {
-      statusHtml += '<span class="role-badge">' + pub.role + "</span>";
-    }
-    statusHtml += "</div>";
-
-    item.innerHTML = html + statusHtml;
-    return item;
-  }
-
-  function renderPublications() {
-    var d = D();
-
-    document.getElementById("label-publications").textContent = d.sections.publications;
-    document.getElementById("heading-publications").textContent = d.headings.publications;
-
-    var list = document.getElementById("research-list");
-    clear(list);
-    d.publications.selected.forEach(function (pub) {
-      list.appendChild(renderResearchItem(pub));
-    });
-
-    var additionalList = document.getElementById("research-additional-list");
-    clear(additionalList);
-    d.publications.additional.forEach(function (pub) {
-      additionalList.appendChild(renderResearchItem(pub));
-    });
-
-    var btn = document.getElementById("research-expand-btn");
-    var expandWrap = btn.parentElement;
-    if (d.publications.additional && d.publications.additional.length > 0) {
-      expandWrap.style.display = "";
-      btn.textContent = researchExpanded
-        ? d.researchCollapse + " \u2191"
-        : d.researchExpand + " \u2193";
-    } else {
-      expandWrap.style.display = "none";
-    }
-  }
-
-  /* --------------------------------------------------------------------
-     Render: My Work (merged Projects + Venture)
-     -------------------------------------------------------------------- */
-
-  function renderWork() {
-    var d = D();
-
-    document.getElementById("label-work").textContent = d.sections.work;
-    document.getElementById("heading-work").textContent = d.headings.work;
-    document.getElementById("work-projects-label").textContent = d.workLabels.projects;
-    document.getElementById("work-venture-label").textContent = d.workLabels.venture;
-
-    /* Projects */
-    var list = document.getElementById("work-list");
-    clear(list);
-
-    d.projects.forEach(function (p) {
-      var item = el("div", "work-item");
-
-      if (p.url) {
-        item.style.cursor = "pointer";
-        item.addEventListener("click", function () {
-          window.open(p.url, "_blank");
-        });
-      }
-
-      item.innerHTML =
-        "<div class=\"work-number\">" + p.number + "</div>" +
-        "<div class=\"work-body\">" +
-        "<h3>" + p.name + "</h3>" +
-        "<p class=\"work-description\">" + p.description + "</p>" +
-        "<p class=\"work-meta\">" + p.category + " &middot; " + p.year + "</p>" +
-        "</div>" +
-        "<div class=\"work-arrow\">&#8599;</div>";
-
-      list.appendChild(item);
-    });
-
-    /* Venture */
-    var narrative = document.getElementById("venture-narrative");
-    narrative.innerHTML = d.company.description;
-
-    var areas = document.getElementById("venture-areas");
-    clear(areas);
-    d.company.areas.forEach(function (area) {
-      var div = el("div", "venture-area");
-      div.innerHTML =
-        "<h4>" + area.name + "</h4>" +
-        "<p>" + area.desc + "</p>";
-      areas.appendChild(div);
-    });
-
-    var linkContainer = document.getElementById("venture-link-container");
-    if (SHARED.company.url) {
-      linkContainer.innerHTML =
-        '<a class="venture-link" href="' + escapeAttr(SHARED.company.url) + '" target="_blank" rel="noopener">' +
-        d.company.visitLink + " <span class=\"arrow\">&#8594;</span></a>";
-    } else {
-      linkContainer.innerHTML =
-        '<span class="venture-link disabled">' +
-        d.company.linkComingSoon + "</span>";
-    }
-  }
-
-  /* --------------------------------------------------------------------
-     Render: Journey Timeline
-     -------------------------------------------------------------------- */
-
-  function renderJourney() {
-    var d = D();
-
-    document.getElementById("label-journey").textContent = d.sections.journey;
-    document.getElementById("heading-journey").textContent = d.headings.journey;
-
+    /* Journey timeline */
     var timeline = document.getElementById("timeline");
-    clear(timeline);
-    d.journey.forEach(function (item) {
-      var div = el("div", "timeline-item");
-      div.innerHTML =
-        '<div class="timeline-year">' + item.year + "</div>" +
-        '<div class="timeline-title">' + item.title + "</div>" +
-        '<div class="timeline-org">' + item.org + "</div>" +
-        (item.detail ? '<div class="timeline-detail">' + item.detail + "</div>" : "");
-      timeline.appendChild(div);
-    });
-  }
-
-  /* --------------------------------------------------------------------
-     Render: Visitors (with IP tracking)
-     -------------------------------------------------------------------- */
-
-  function renderVisitors() {
-    var d = D();
-
-    document.getElementById("label-world").textContent = d.sections.world;
-    document.getElementById("heading-world").textContent = d.headings.world;
-
-    if (visitorData && !visitorData.mock) {
-      renderVisitorStats(visitorData);
-    } else if (visitorLocation) {
-      renderVisitorLocation();
-    } else {
-      document.getElementById("visitor-placeholder").textContent = d.visitorPlaceholder;
+    if (timeline) {
+      clear(timeline);
+      d.journey.forEach(function (item) {
+        var div = el("div", "timeline-item");
+        div.innerHTML =
+          '<div class="timeline-year">' + item.year + "</div>" +
+          '<div class="timeline-content">' +
+          '<div class="timeline-title">' + item.title + "</div>" +
+          '<div class="timeline-org">' + item.org + "</div>" +
+          (item.detail ? '<div class="timeline-detail">' + item.detail + "</div>" : "") +
+          "</div>";
+        timeline.appendChild(div);
+      });
     }
   }
 
@@ -411,132 +443,12 @@
   }
 
   /* --------------------------------------------------------------------
-     Visitor Stats (localStorage-based)
-     -------------------------------------------------------------------- */
-
-  function loadVisitorStats() {
-    var VISIT_KEY = "yy-site-visits";
-    var visits = 1;
-    try {
-      visits = parseInt(localStorage.getItem(VISIT_KEY) || "0", 10) + 1;
-      localStorage.setItem(VISIT_KEY, visits.toString());
-    } catch (e) {}
-
-    var launchDate = new Date("2025-05-03").getTime();
-    var daysOnline = Math.max(1, Math.floor((Date.now() - launchDate) / 86400000));
-    var baseCount = daysOnline * 4;
-    var totalCount = baseCount + visits;
-
-    visitorData = {
-      mock: false,
-      visitors: totalCount,
-      countries: 1,
-      topCountries: [],
-    };
-    renderVisitorStats(visitorData);
-  }
-
-  function renderVisitorStats(data) {
-    var d = D();
-    var statsContainer = document.getElementById("visitor-stats");
-    statsContainer.innerHTML = "";
-
-    var numbers = el("div", "visitor-numbers");
-    numbers.appendChild(buildStat(data.visitors || 0, d.visitorLabels.visitors));
-    numbers.appendChild(buildStat(data.countries || 0, d.visitorLabels.countries));
-    statsContainer.appendChild(numbers);
-
-    if (visitorLocation) {
-      var locDiv = el("div", "visitor-location");
-      var youText = currentLang === "zh"
-        ? "\u4f60\u6b63\u4ece"
-        : "You're visiting from";
-      locDiv.innerHTML =
-        '<div class="visitor-location-text">' +
-        youText + " <strong>" + (visitorLocation.city || "") + ", " + (visitorLocation.country || "") + "</strong>" +
-        "</div>";
-      statsContainer.appendChild(locDiv);
-    }
-
-    if (data.topCountries && data.topCountries.length) {
-      var countriesDiv = el("div", "visitor-countries");
-      countriesDiv.appendChild(el("div", "label", d.visitorLabels.topLocations));
-      data.topCountries.forEach(function (c) {
-        var row = el("div", "country-row");
-        row.innerHTML =
-          '<span class="name"><span class="dot"></span>' + c.name + "</span>" +
-          '<span class="count">' + (c.count || c.percentage || "") + "</span>";
-        countriesDiv.appendChild(row);
-      });
-      statsContainer.appendChild(countriesDiv);
-    }
-  }
-
-  function buildStat(value, label) {
-    var div = el("div", "visitor-number");
-    div.innerHTML =
-      '<span class="value">' + formatNumber(value) + "</span>" +
-      '<span class="label">' + label + "</span>";
-    return div;
-  }
-
-  function formatNumber(n) {
-    if (typeof n !== "number") return n;
-    return n.toLocaleString();
-  }
-
-  /* --------------------------------------------------------------------
-     Visitor Location (IP-based)
-     -------------------------------------------------------------------- */
-
-  function loadVisitorLocation() {
-    fetch("https://ipwho.is/")
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (data && data.success !== false && data.latitude) {
-          visitorLocation = {
-            city: data.city,
-            country: data.country,
-            countryCode: data.country_code,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            ip: data.ip,
-          };
-          if (window.addVisitorPoint && typeof window.addVisitorPoint === "function") {
-            window.addVisitorPoint(visitorLocation.latitude, visitorLocation.longitude);
-          }
-          if (visitorData && !visitorData.mock) {
-            renderVisitorStats(visitorData);
-          } else {
-            renderVisitorLocation();
-          }
-        }
-      })
-      .catch(function () { });
-  }
-
-  function renderVisitorLocation() {
-    var d = D();
-    var statsContainer = document.getElementById("visitor-stats");
-    statsContainer.innerHTML = "";
-
-    var locDiv = el("div", "visitor-location");
-    var youText = currentLang === "zh"
-      ? "\u4f60\u6b63\u4ece"
-      : "You're visiting from";
-    locDiv.innerHTML =
-      '<div class="visitor-location-text">' +
-      youText + " <strong>" + (visitorLocation.city || "") + ", " + (visitorLocation.country || "") + "</strong>" +
-      "</div>";
-    statsContainer.appendChild(locDiv);
-  }
-
-  /* --------------------------------------------------------------------
      Language Toggle
      -------------------------------------------------------------------- */
 
   function updateLangToggle() {
     var btn = document.getElementById("lang-toggle");
+    if (!btn) return;
     var enSpan = btn.querySelector(".lang-en");
     var zhSpan = btn.querySelector(".lang-zh");
     if (currentLang === "en") {
@@ -571,11 +483,11 @@
   function renderAll() {
     renderHero();
     renderNav();
+    renderUpdates();
+    renderPublicationsHome();
+    renderResearchInterests();
+    renderBuilds();
     renderAbout();
-    renderPublications();
-    renderWork();
-    renderJourney();
-    renderVisitors();
     renderSideSocial();
     renderContact();
     renderFooter();
@@ -660,25 +572,6 @@
   }
 
   /* --------------------------------------------------------------------
-     Interactions: Research Expand
-     -------------------------------------------------------------------- */
-
-  function initResearchExpand() {
-    var btn = document.getElementById("research-expand-btn");
-    var additional = document.getElementById("research-additional");
-    if (!btn || !additional) return;
-
-    btn.addEventListener("click", function () {
-      researchExpanded = !researchExpanded;
-      additional.classList.toggle("open", researchExpanded);
-      var d = D();
-      btn.textContent = researchExpanded
-        ? d.researchCollapse + " \u2191"
-        : d.researchExpand + " \u2193";
-    });
-  }
-
-  /* --------------------------------------------------------------------
      Init
      -------------------------------------------------------------------- */
 
@@ -687,10 +580,7 @@
     renderAll();
     initNav();
     initReveals();
-    initResearchExpand();
     initLangToggle();
-    loadVisitorStats();
-    loadVisitorLocation();
   }
 
   if (document.readyState === "loading") {
