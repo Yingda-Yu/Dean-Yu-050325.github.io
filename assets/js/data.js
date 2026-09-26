@@ -77,6 +77,39 @@ var I18N = {
 
     viewAllPublications: "View all publications",
 
+    statusLabels: {
+      "published": "Published",
+      "accepted": "Accepted",
+      "preprint": "Preprint",
+      "under-review": "Under Review"
+    },
+
+    presentationLabels: {
+      "oral": "Oral",
+      "poster": "Poster",
+      "abstract-presentation": "Abstract Presentation"
+    },
+
+    pubPage: {
+      title: "Publications",
+      subtitle: "All research output, grouped by status.",
+      backToHome: "\u2190 Back to home",
+      groups: {
+        published: "Published & Indexed",
+        accepted: "Accepted / Forthcoming",
+        preprint: "Public Preprints",
+        "under-review": "Under Review"
+      },
+      filters: {
+        all: "All",
+        published: "Published",
+        accepted: "Accepted",
+        preprint: "Preprints",
+        "under-review": "Under Review"
+      },
+      countLabel: "publications"
+    },
+
     latestUpdates: [
       {
         date: "Sep 2026",
@@ -278,6 +311,39 @@ var I18N = {
     },
 
     viewAllPublications: "\u67e5\u770b\u5168\u90e8\u8bba\u6587",
+
+    statusLabels: {
+      "published": "\u5df2\u53d1\u8868",
+      "accepted": "\u5df2\u63a5\u6536",
+      "preprint": "\u9884\u5370\u672c",
+      "under-review": "\u5ba1\u7a3f\u4e2d"
+    },
+
+    presentationLabels: {
+      "oral": "Oral \u62a5\u544a",
+      "poster": "Poster \u5c55\u793a",
+      "abstract-presentation": "Abstract \u6c47\u62a5"
+    },
+
+    pubPage: {
+      title: "\u8bba\u6587\u53d1\u8868",
+      subtitle: "\u6240\u6709\u7814\u7a76\u6210\u679c\uff0c\u6309\u72b6\u6001\u5206\u7ec4\u3002",
+      backToHome: "\u2190 \u8fd4\u56de\u9996\u9875",
+      groups: {
+        published: "\u5df2\u53d1\u8868 / \u7d22\u5f15",
+        accepted: "\u5df2\u63a5\u6536 / \u5373\u5c06\u51fa\u7248",
+        preprint: "\u516c\u5f00\u9884\u5370\u672c",
+        "under-review": "\u5ba1\u7a3f\u4e2d"
+      },
+      filters: {
+        all: "\u5168\u90e8",
+        published: "\u5df2\u53d1\u8868",
+        accepted: "\u5df2\u63a5\u6536",
+        preprint: "\u9884\u5370\u672c",
+        "under-review": "\u5ba1\u7a3f\u4e2d"
+      },
+      countLabel: "\u7bc7\u8bba\u6587"
+    },
 
     latestUpdates: [
       {

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="All research publications by Yingda Yu — computer vision, generative learning, multimodal AI, and reliable systems.">
+  <meta name="author" content="Yingda Yu">
+  <title>Publications — Yingda Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css?v=20260926v3">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="./index.html" class="nav-logo">Yingda Yu</a>
+      <div class="nav-links" id="nav-links"></div>
+      <div class="nav-actions">
+        <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">
+          <span class="lang-en">EN</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-zh">\u4e2d</span>
+        </button>
+        <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu"></div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="pub-page-header">
+    <div class="container">
+      <a href="./index.html" class="pub-back-link" id="pub-back-link">&larr; Back to home</a>
+      <h1 class="pub-page-title" id="pub-page-title">Publications</h1>
+      <p class="pub-page-subtitle" id="pub-page-subtitle">All research output, grouped by status.</p>
+      <div class="pub-count" id="pub-count"></div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <section class="pub-filters-section">
+    <div class="container">
+      <div class="pub-filters" id="pub-filters">
+        <button class="pub-filter active" data-filter="all">All</button>
+        <button class="pub-filter" data-filter="published">Published</button>
+        <button class="pub-filter" data-filter="accepted">Accepted</button>
+        <button class="pub-filter" data-filter="preprint">Preprints</button>
+        <button class="pub-filter" data-filter="under-review">Under Review</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publication Groups -->
+  <main class="pub-main">
+    <div class="container">
+
+      <section class="pub-group" data-status="published">
+        <h2 class="pub-group-title" id="group-published">Published &amp; Indexed</h2>
+        <div class="pub-list" id="pub-list-published"></div>
+      </section>
+
+      <section class="pub-group" data-status="accepted">
+        <h2 class="pub-group-title" id="group-accepted">Accepted / Forthcoming</h2>
+        <div class="pub-list" id="pub-list-accepted"></div>
+      </section>
+
+      <section class="pub-group" data-status="preprint">
+        <h2 class="pub-group-title" id="group-preprint">Public Preprints</h2>
+        <div class="pub-list" id="pub-list-preprint"></div>
+      </section>
+
+      <section class="pub-group" data-status="under-review">
+        <h2 class="pub-group-title" id="group-under-review">Under Review</h2>
+        <div class="pub-list" id="pub-list-under-review"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text" id="footer-text"></p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="./assets/js/data.js?v=20260926v3"></script>
+  <script src="./assets/js/publications-data.js?v=20260926v3"></script>
+  <script src="./assets/js/publications.js?v=20260926v3"></script>
+</body>
+</html>
