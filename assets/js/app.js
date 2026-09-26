@@ -95,15 +95,8 @@
       companyLink.innerHTML = d.company.heroText + " &#8594; <span>" + d.company.name + "</span>";
     }
 
-    var photoReal = document.getElementById("hero-photo-real");
-    var photoStylized = document.getElementById("hero-photo-stylized");
-    if (SHARED.company.photo) photoReal.src = SHARED.company.photo;
-    if (SHARED.stylizedPhoto) photoStylized.src = SHARED.stylizedPhoto;
-
-    var labelReal = document.getElementById("photo-label-real");
-    var labelAI = document.getElementById("photo-label-ai");
-    labelReal.textContent = currentLang === "zh" ? "\u771f\u5b9e" : "Real";
-    labelAI.textContent = "AI";
+    var photo = document.getElementById("hero-photo");
+    if (SHARED.company.photo && photo) photo.src = SHARED.company.photo;
   }
 
   /* --------------------------------------------------------------------
@@ -539,60 +532,6 @@
   }
 
   /* --------------------------------------------------------------------
-     Photo Slider
-     -------------------------------------------------------------------- */
-
-  function initPhotoSlider() {
-    var slider = document.getElementById("photo-slider");
-    if (!slider) return;
-
-    var isDragging = false;
-
-    function getPercent(clientX) {
-      var rect = slider.getBoundingClientRect();
-      var x = clientX - rect.left;
-      var percent = (x / rect.width) * 100;
-      return Math.max(0, Math.min(100, percent));
-    }
-
-    function updateSlider(percent) {
-      var before = document.getElementById("photo-slider-before");
-      var handle = document.getElementById("photo-slider-handle");
-      before.style.clipPath = "inset(0 0 0 " + percent + "%)";
-      handle.style.left = percent + "%";
-    }
-
-    function onMove(e) {
-      if (!isDragging) return;
-      var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      updateSlider(getPercent(clientX));
-      e.preventDefault();
-    }
-
-    function onStart(e) {
-      isDragging = true;
-      var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      updateSlider(getPercent(clientX));
-      e.preventDefault();
-    }
-
-    function onEnd() {
-      isDragging = false;
-    }
-
-    slider.addEventListener("mousedown", onStart);
-    slider.addEventListener("touchstart", onStart, { passive: false });
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("touchmove", onMove, { passive: false });
-
-    document.addEventListener("mouseup", onEnd);
-    document.addEventListener("touchend", onEnd);
-
-    updateSlider(0);
-  }
-
-  /* --------------------------------------------------------------------
      Language Toggle
      -------------------------------------------------------------------- */
 
@@ -750,7 +689,6 @@
     initReveals();
     initResearchExpand();
     initLangToggle();
-    initPhotoSlider();
     loadVisitorStats();
     loadVisitorLocation();
   }

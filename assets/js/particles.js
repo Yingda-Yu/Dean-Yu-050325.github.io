@@ -109,8 +109,8 @@
       ctx.beginPath();
       ctx.arc(px, py, p.size, 0, Math.PI * 2);
       ctx.fillStyle = p.isAccent
-        ? "rgba(95, 208, 190, " + p.alpha + ")"
-        : "rgba(139, 155, 176, " + p.alpha + ")";
+        ? "rgba(181, 122, 78, " + p.alpha + ")"
+        : "rgba(181, 145, 110, " + p.alpha + ")";
       ctx.fill();
     }
   }
@@ -128,8 +128,8 @@
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fillStyle = p.isAccent
-        ? "rgba(95, 208, 190, " + p.baseAlpha + ")"
-        : "rgba(139, 155, 176, " + p.baseAlpha + ")";
+        ? "rgba(181, 122, 78, " + p.baseAlpha + ")"
+        : "rgba(181, 145, 110, " + p.baseAlpha + ")";
       ctx.fill();
     }
   }

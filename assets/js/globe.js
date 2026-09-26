@@ -110,7 +110,7 @@
 
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, 1, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(139, 155, 176, " + alpha + ")";
+      ctx.fillStyle = "rgba(160, 130, 100, " + alpha + ")";
       ctx.fill();
     }
 
@@ -125,13 +125,13 @@
       // Glow
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(95, 208, 190, " + alpha * 0.2 + ")";
+      ctx.fillStyle = "rgba(181, 122, 78, " + alpha * 0.2 + ")";
       ctx.fill();
 
       // Dot
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, 2, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(95, 208, 190, " + alpha + ")";
+      ctx.fillStyle = "rgba(181, 122, 78, " + alpha + ")";
       ctx.fill();
     }
 
@@ -147,19 +147,19 @@
       // Outer pulse ring
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, 6 + pulse * 4, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(95, 208, 190, " + alpha * 0.15 * (1 - pulse) + ")";
+      ctx.fillStyle = "rgba(181, 122, 78, " + alpha * 0.15 * (1 - pulse) + ")";
       ctx.fill();
 
       // Glow
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, 5, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(95, 208, 190, " + alpha * 0.3 + ")";
+      ctx.fillStyle = "rgba(181, 122, 78, " + alpha * 0.3 + ")";
       ctx.fill();
 
       // Dot
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(95, 208, 190, " + alpha + ")";
+      ctx.fillStyle = "rgba(181, 122, 78, " + alpha + ")";
       ctx.fill();
     }
   }
